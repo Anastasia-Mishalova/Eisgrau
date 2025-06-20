@@ -5,7 +5,7 @@
         <div class="header__menu">
             <a href="index.php" class="header__link-logo">
                 <div class="header__logo">
-                    <img class="header__logo-image" src="../assets/images/logo.png" alt="Логотип">
+                    <img class="header__logo-image" src='/images/design/logo.png' alt="Логотип">
                     <p class="header__title">Аукцион</p>
                 </div>
             </a>
@@ -18,7 +18,7 @@
             </nav>
         </div>
         <div class="header__banner">
-            <img class="header__banner-image" src="../assets/images/banner.png" alt="Баннер">
+            <img class="header__banner-image" src='/images/design/banner.png' alt="Баннер">
         </div>
     </header>
 </div>

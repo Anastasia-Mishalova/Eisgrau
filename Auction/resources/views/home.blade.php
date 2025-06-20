@@ -22,7 +22,7 @@
     </div>
 
     <section class="filters" id="filters">
-        <h3 class="filters__title">Фильтры</h3>
+        <p class="filters__title">Фильтры</p>
 
         <fieldset id="weapons-filters" class="filters-group filters__hidden-group checkbox-container"
             style="display: none;">
@@ -273,7 +273,7 @@
                 <a href="{{ route('lots.show', $lot->id) }}" target="_blank">
                     <div class="card__top">
                         <div class="card__image-container">
-                            <img class="card__image" src="{{ $lot->image_url }}" alt="Изображение лота">
+                            <img class="card__image" src="{{ asset($lot->photo_url) }}" alt="Фото лота">
                         </div>
                     </div>
                     <div class="card__bottom">
@@ -281,13 +281,14 @@
                         <p class="card__price">Цена: {{ $lot->starting_price }} $</p>
 
                         @if ($lot->time_left->days == 0 && $lot->time_left->h > 0)
-                            <p>До конца аукциона: {{ $lot->time_left->h }} ч.</p>
+                            <p class="card__add">До конца: {{ $lot->time_left->h }} ч.</p>
                         @elseif ($lot->time_left->days == 0 && $lot->time_left->h == 0)
-                            <p>До конца аукциона: {{ $lot->time_left->i }} мин.</p>
-                        @else
-                            <p>До конца аукциона: {{ $lot->time_left->days }} д. {{ $lot->time_left->h }} ч. </p>
+                            {{-- <p>До конца аукциона: {{ $lot->time_left->i }} мин.</p> --}}
+                            <p class="card__add">До конца: < 1 ч.</p>
+                                @else
+                                    <p class="card__add">До конца: {{ $lot->time_left->days }} д.
+                                        {{ $lot->time_left->h }} ч. </p>
                         @endif
-
                     </div>
                 </a>
             </div>
