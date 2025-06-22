@@ -14,10 +14,10 @@
 
 <main class="products">
     <div class="search">
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Введите текст для поиска...">
-            <button class="search-button">Поиск</button>
-        </div>
+        <form action="{{ route('home') }}" method="GET" class="search-container">
+            <input type="text" class="search-input"name="req" placeholder="Введите текст для поиска..." value="{{ request('req') }}">
+            <button type="submit" class="search-button">Поиск</button>
+        </form>
 
     </div>
 
@@ -283,7 +283,6 @@
                         @if ($lot->time_left->days == 0 && $lot->time_left->h > 0)
                             <p class="card__add">До конца: {{ $lot->time_left->h }} ч.</p>
                         @elseif ($lot->time_left->days == 0 && $lot->time_left->h == 0)
-                            {{-- <p>До конца аукциона: {{ $lot->time_left->i }} мин.</p> --}}
                             <p class="card__add">До конца: < 1 ч.</p>
                                 @else
                                     <p class="card__add">До конца: {{ $lot->time_left->days }} д.

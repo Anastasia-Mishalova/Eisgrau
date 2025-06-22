@@ -3,7 +3,7 @@
 <div class="body">
      <header class="header">
         <div class="header__menu">
-            <a href="index.php" class="header__link-logo">
+            <a href="{{ route('home') }}" class="header__link-logo">
                 <div class="header__logo">
                     <img class="header__logo-image" src='/images/design/logo.png' alt="Логотип">
                     <p class="header__title">Аукцион</p>
