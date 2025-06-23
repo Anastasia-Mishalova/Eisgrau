@@ -87,80 +87,14 @@ function checkFormLogin() {
     }
 }
 
-/* шайтан-приблуда для предпросмотра картинок при загрузке фото в аук*/
-document.getElementById('uploadCard').addEventListener('click', function () {
-    document.getElementById('fileInput').click();
-});
 
-document.getElementById('fileInput').addEventListener('change', function (event) {
-    const files = event.target.files;
-    const previewContainer = document.getElementById('previewContainer');
 
-    previewContainer.innerHTML = '';
 
-    const fileCount = Math.min(files.length, 10);
 
-    for (let i = 0; i < fileCount; i++) {
-        const file = files[i];
-        const reader = new FileReader();
 
-        reader.onload = function (e) {
-            const card = document.createElement('div');
-            card.className = 'card';
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            card.appendChild(img);
-            previewContainer.appendChild(card);
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'x';
-            deleteButton.className = 'delete-button';
-            deleteButton.addEventListener('click', function () {
-                card.remove();
-            });
-            card.appendChild(deleteButton);
-        };
-        reader.readAsDataURL(file);
-    }
-});
 
-/* Отображает свой текст для каждого уровня качества, пояснение для пользователей */
-function updateConditionText() {
-    const selected = document.querySelector('input[name="condition"]:checked');
-    const conditionText = document.getElementById('condition-text');
 
-    if (selected) {
-        if (selected.value === "Идеальное") {
-            conditionText.textContent = "Нет видимых следов износа или манипуляций или они минимальны. Могут присутствовать следы, возникшие на заготовке при изготовлении или чеканке. Отсутствуют следы износа и любые механические повреждения, минимальное влияние времени. Самая наивысшая степень сохранности";
-        }
-        else if (selected.value === "Отличное") {
-            conditionText.textContent = "95% оригинальных деталей не имеют дефектов. Возможны заметные небольшие царапины, и небольшое влияние времени";
-        }
-        else if (selected.value === "Хорошее") {
-            conditionText.textContent = "80-90% оригинальных деталей не имеют дефектов. Возможны заметные царапины и небольшие повреждения, вмятины, слабые следы ударов, мытья, чистки, изменение в окраске, влияние времени заметно, но не мешает использованию. Могут остуствовать небольшие фрагменты и быть заметны следы разложения или ржавчины";
-        }
-        else if (selected.value === "Нормальное") {
-            conditionText.textContent = "50-80% оригинальных деталей не имеют дефектов. Возможны царапины и повреждения, влияние времени заметно, но предмет не рассыпается и не разламывается в руках, не отваливаются куски. Некоторые фрагменты могут отсутствовать, могут присутствовать крупные следы разложения и ржавчины. Допустим раскол на две, три или четыре крупных части";
-        }
-        else if (selected.value === "Плохое") {
-            conditionText.textContent = "Уровень сохранности изделия от 50% и ниже. Отсутствуют крупные фрагменты, заметно сильное влияние времени, масштабные следы разложения и ржавчины, на изделии невозможно различить детали или узоры";
-        }
-        else {
-            conditionText.textContent = "Вы выбрали: Неизвестное состояние";
-        }
-    } else {
-        conditionText.textContent = "Выберите степень сохранности";
-    }
-}
 
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('input', toggleCreateButton);
-});
 
-function toggleCreateButton() {
-    const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const termsChecked = document.getElementById('terms').checked;
-    const createButton = document.getElementById('createLot');
-    createButton.disabled = !(title && description && termsChecked);
-}
 
+  

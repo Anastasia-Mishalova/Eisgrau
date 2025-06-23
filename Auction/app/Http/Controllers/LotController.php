@@ -66,4 +66,64 @@ class LotController extends Controller
 
         return view('lot', compact('lot', 'photos', 'bids'));
     }
+
+    public function create()
+    {
+        $qualities = DB::table('lot_qualities')->get(); // для вывода степени сохранности и описания
+        return view('create-auction', compact('qualities'));
+    }
+    public function store(Request $request)
+    {
+        // Валидирую форму
+        $validated = $request->validate([
+            'title' => 'required|string|max:150',
+            'descr' => 'required|string|max:2500',
+            'quality_id' => 'required|exists:lot_qualities,id',
+            'starting_price' => 'required|numeric|min:0',
+            'auction_end' => 'required|date|after:now',
+            'quality_id' => 'required|exists:lot_qualities,id',
+            'photos.*' => 'image|mimes:jpeg,jpg,png|max:5120',
+        ]);
+
+        // Проверяю что фоток 10 штук
+        if ($request->hasFile('photos') && count($request->file('photos')) > 10) {
+            return back()->withErrors(['photos' => 'Можно загрузить не более 10 изображений!'])->withInput();
+        }
+
+        // Сохраняю лот 
+        $lotId = DB::table('lots')->insertGetId([
+            // 'seller_id' => auth()->id(), 
+            'seller_id' => 1, // временно, пока не будет авторизация TODO НЕ ЗАБЫТЬ ЗАМЕНИТЬ!!!!!!!!!!!!!!!!
+            'title' => $validated['title'],
+            'descr' => $validated['descr'],
+            'quality_id' => $validated['quality_id'],
+            'starting_price' => $validated['starting_price'],
+            'current_price' => $validated['starting_price'],
+            'auction_start' => now(),
+            'auction_end' => $validated['auction_end'],
+            'lot_status' => 'active',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Сохраняю фотки с именами 1_1, 1_2 и тд
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+
+            foreach ($files as $index => $photo) {
+                $number = $index + 1;
+                $extension = $photo->getClientOriginalExtension();
+                $filename = "{$lotId}_{$number}.{$extension}";
+                $path = $photo->storeAs('images/lots', $filename, 'public');
+
+                DB::table('photos_lots')->insert([
+                    'lot_id' => $lotId,
+                    'photo_url' => 'storage/' . $path,
+                    'created_at' => now(),
+                ]);
+            }
+        }
+
+        return redirect()->route('home')->with('success', 'Лот успешно добавлен!');
+    }
 }
