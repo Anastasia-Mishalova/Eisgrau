@@ -15,12 +15,12 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         // Валидация входных данных
-        $validate = $request->validate([
+        $validated = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($validate, $request->boolean('remember'))) {
+        if (Auth::attempt($validated, $request->boolean('remember'))) {
             //для защиты от подмены сешн ид, TODO НАЙТИ ПОДРОБНУЮ СТАТЬЮ О РАБОТЕ ПОД КАПОТОМ
             $request->session()->regenerate();
 
