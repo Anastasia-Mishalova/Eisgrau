@@ -18,26 +18,34 @@
             <div class="form-group">
                 <label for="firstname">Имя</label>
                 <input type="text" name="firstname" required>
-                @error('firstname') <div>{{ $message }}</div> @enderror
+                @error('firstname')
+                    <div>{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="lastname">Фамилия</label>
                 <input type="text" name="lastname" required>
-                @error('lastname') <div>{{ $message }}</div> @enderror
+                @error('lastname')
+                    <div>{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="email">E-mail</label>
                 <input type="email" name="email" required>
-                @error('email') <div>{{ $message }}</div> @enderror
+                @error('email')
+                    <div>{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <div class="password-wrapper">
                     <input type="password" id="password" type="password" name="password" required>
                     <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
-                    @error('password') <div>{{ $message }}</div> @enderror
+                    @error('password')
+                        <div>{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
@@ -61,5 +69,35 @@
 </body>
 
 <script src="../js/script.js"></script>
+<script>
+    //скрипт для того чтобы кнопка становилась активной только при заполнении всех полей
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.register-form');
+        const inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+        const checkbox = document.getElementById('terms');
+        const button = document.getElementById('registerButton');
+
+        function validateForm() {
+            let allFilled = true;
+
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    allFilled = false;
+                }
+            });
+
+            button.disabled = !(allFilled && checkbox.checked);
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', validateForm);
+        });
+
+        checkbox.addEventListener('change', validateForm);
+
+        // шайтан-задержка в 100 милисекунд для тех, кто пользуется автозаполнением, чтобы успело считать из полей
+        setTimeout(validateForm, 100);
+    });
+</script>
 
 </html>

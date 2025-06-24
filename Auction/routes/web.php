@@ -7,7 +7,7 @@ use App\Http\Controllers\RegisterController;
 
 
 //домашняя страница
-Route::get('/', [LotController::class, 'index'])->name('home');
+Route::get('/home', [LotController::class, 'index'])->name('home');
 
 
 //показ конкретного лота

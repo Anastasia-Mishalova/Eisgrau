@@ -18,14 +18,18 @@
             <div class="form-group">
                 <label for="email">E-mail</label>
                 <input type="email" name="email" required>
-                 @error('email') <div>{{ $message }}</div> @enderror
+                @error('email')
+                    <div>{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <div class="password-wrapper">
                     <input type="password" id="password" type="password" name="password" required>
                     <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
-                    @error('password') <div>{{ $message }}</div> @enderror
+                    @error('password')
+                        <div>{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
             <label class="checkbox-container">
@@ -43,5 +47,25 @@
     <x-footer />
 </body>
 <script src="../js/script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.login-form');
+        const emailInput = form.querySelector('input[name="email"]');
+        const passwordInput = form.querySelector('input[name="password"]');
+        const loginButton = document.getElementById('loginButton');
+
+        function validateLoginForm() {
+            const emailFilled = emailInput.value.trim() !== '';
+            const passwordFilled = passwordInput.value.trim() !== '';
+            loginButton.disabled = !(emailFilled && passwordFilled);
+        }
+
+        emailInput.addEventListener('input', validateLoginForm);
+        passwordInput.addEventListener('input', validateLoginForm);
+
+        // таймаут на случай автозаполнения
+        setTimeout(validateLoginForm, 100);
+    });
+</script>
 
 </html>

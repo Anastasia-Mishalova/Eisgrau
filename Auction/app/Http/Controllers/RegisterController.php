@@ -26,8 +26,8 @@ class RegisterController extends Controller
 
         // Создание пользователя
         $user = User::create([
-            'firstname' => $validated['firstname'],
-            'lastname'  => $validated['lastname'],
+            'first_name' => $validated['firstname'],
+            'last_name'  => $validated['lastname'],
             'email'     => $validated['email'],
             'password'  => Hash::make($validated['password']),
         ]);
@@ -35,7 +35,7 @@ class RegisterController extends Controller
         // Автоматический вход
         Auth::login($user);
 
-        // Перенаправление на защищённую страницу
+        // TODO НЕ ПОЛУЧАЕТСЯ СДЕЛАТЬ ЗАЩИЩЕННЫЕ СТРАНИЦЫ, НЕ ЗАБЫТЬ СДЕЛАТЬ ПОЗЖЕ!!!!
         return redirect('/home');
     }
 }
