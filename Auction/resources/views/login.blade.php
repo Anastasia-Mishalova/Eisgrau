@@ -18,12 +18,14 @@
             <div class="form-group">
                 <label for="email">E-mail</label>
                 <input type="email" name="email" required>
+                 @error('email') <div>{{ $message }}</div> @enderror
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <div class="password-wrapper">
                     <input type="password" id="password" type="password" name="password" required>
                     <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
+                    @error('password') <div>{{ $message }}</div> @enderror
                 </div>
             </div>
             <label class="checkbox-container">
