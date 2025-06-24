@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LotController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 
 
@@ -27,3 +28,6 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 // Выход из акка
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Профиль пользователя
+Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
