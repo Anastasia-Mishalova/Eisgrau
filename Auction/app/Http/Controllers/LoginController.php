@@ -20,11 +20,12 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($validated, $request->boolean('remember'))) {
-            //для защиты от подмены сешн ид, TODO НАЙТИ ПОДРОБНУЮ СТАТЬЮ О РАБОТЕ ПОД КАПОТОМ
+        $remember = $request->has('remember');
+
+        if (Auth::attempt($validated, $remember)) {
             $request->session()->regenerate();
 
-            return redirect('/home');
+            return redirect()->intended('/home');
         }
 
         return back()->withErrors(['email' => 'Неверный email или пароль.',])->onlyInput('email');
@@ -32,6 +33,8 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        // TODO ВОЗМОЖНО СДЕЛАТЬ УДАЛЕНИЕ ТОКЕНА ИЗ БД
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

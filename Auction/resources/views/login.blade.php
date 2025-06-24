@@ -33,7 +33,7 @@
                 </div>
             </div>
             <label class="checkbox-container">
-                <input class="custom-checkbox" type="checkbox" id="remember-me" onchange="">
+                <input class="custom-checkbox" type="checkbox" id="remember-me" name="remember">
                 <span class="checkmark"></span>
                 <p class="checkmark-text form-options">Запомнить меня</p>
             </label>
