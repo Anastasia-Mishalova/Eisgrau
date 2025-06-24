@@ -13,8 +13,8 @@
 
                 <a href="faq.php" class="header__link">Вопросы и ответы</a>
                 <a href="auction-info.php" class="header__link">Что такое аукцион?</a>
-                <a href="login.php" class="header__link">Вход</a>
-                <a href="registration.php" class="header__link">Регистрация</a>
+                <a href="{{ route('login') }}" class="header__link">Вход</a>
+                <a href="{{ route('registration') }}" class="header__link">Регистрация</a>
             </nav>
         </div>
         <div class="header__banner">
