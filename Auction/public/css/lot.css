@@ -1,3 +1,19 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #e9e9e9;
+  /* background-color:rgb(32, 27, 27); */
+  background-image: url('/images/design/Paper-texture.png');
+  background-size: contain;
+  color: #171c20;
+  font-size: 14px;
+}
+
+
 .product {
   padding: 1% 10%;
   display: grid;

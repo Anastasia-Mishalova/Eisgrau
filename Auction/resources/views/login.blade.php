@@ -9,19 +9,20 @@
 </head>
 
 <body>
-    <?php include('./components/header/header.php'); ?>
+    <x-header />
 
     <div class="login-container">
-        <form class="login-form">
+        <form class="login-form" method="POST" action="{{ url('/login') }}">
+            @csrf
             <h2>Вход</h2>
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" required onchange="checkFormLogin()">
+                <input type="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <div class="password-wrapper">
-                    <input type="password" id="password" required onchange="checkFormLogin()">
+                    <input type="password" id="password" type="password" name="password" required>
                     <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
                 </div>
             </div>
@@ -33,12 +34,11 @@
 
             <button id="loginButton" type="submit" class="login-button" disabled>Войти</button>
             <a href="#" class="forgot-password">Забыли пароль?</a>
-            <p class="register-link"> Нет аккаунта? <a href="registration.php">Зарегистрируйтесь!</a></p>
+            <p class="register-link"> Нет аккаунта? <a href="{{ route('register') }}">Зарегистрируйтесь!</a></p>
         </form>
     </div>
 
-    <?php include('./components/footer/footer.php'); ?>
-
+    <x-footer />
 </body>
 <script src="../js/script.js"></script>
 
