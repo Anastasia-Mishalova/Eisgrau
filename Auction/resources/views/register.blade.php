@@ -54,8 +54,8 @@
             <label class="checkbox-container">
                 <input class="custom-checkbox" type="checkbox" id="terms" onchange="checkFormRegister()">
                 <span class="checkmark"></span>
-                <p class="checkmark-text form-options">Я соглашаюсь с условиями <a href="user-agreement.php"
-                        target="_blank">Пользовательского соглашения</a> и <a href="privacy-policy.php"
+                <p class="checkmark-text form-options">Я соглашаюсь с условиями <a href="{{ route('terms-of-service') }}"
+                        target="_blank">Пользовательского соглашения</a> и <a href="{{ route('privacy-policy') }}"
                         target="_blank">Политики конфиденциальности</a></p>
             </label>
             <!--  -->

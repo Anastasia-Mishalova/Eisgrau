@@ -7,18 +7,18 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 
 
-//домашняя страница
+// Домашняя страница
 Route::get('/home', [LotController::class, 'index'])->name('home');
 
 
-//показ конкретного лота
+// Показ конкретного лота
 Route::get('/lots/{lot}', [LotController::class, 'show'])->name('lots.show');
 
-//показ страницы Создание аукциона и POST при отправке данных на создание аука
+// Показ страницы Создание аукциона и POST при отправке данных на создание аука
 Route::get('/create-auction', [LotController::class, 'create'])->name('lots.create');
 Route::post('/create-auction', [LotController::class, 'store'])->name('lots.store');
 
-// вход и регистрация 
+// Вход и регистрация 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 
@@ -31,3 +31,11 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Профиль пользователя
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+
+// FAQ и Что такое аукцион
+Route::view('/faq', 'faq')->name('faq');
+Route::view('/auction-info', 'auction-info')->name('auction-info');
+
+// Политика конфиденциальности и Пользовательское соглашение
+Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
+Route::view('/terms-of-service', 'terms-of-service')->name('terms-of-service');

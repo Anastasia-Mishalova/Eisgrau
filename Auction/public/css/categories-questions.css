@@ -1,0 +1,18 @@
+.categories {
+    display: flex;
+    justify-content: center;
+    padding: 0 20% 10px 20%;
+    margin-top: 10px;
+    border-bottom: 1px solid #171c20;
+}
+
+
+.categories a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #171c20;
+}
+
+.selected-categories {
+    border-bottom: 2px solid #171c20;
+}

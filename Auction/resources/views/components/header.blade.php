@@ -11,8 +11,8 @@
              </a>
              
              <nav class="header__nav">
-                 <a href="faq.php" class="header__link">Вопросы и ответы</a>
-                 <a href="auction-info.php" class="header__link">Что такое аукцион?</a>
+                 <a href="{{ route('faq') }}" class="header__link">Вопросы и ответы</a>
+                 <a href="{{ route('auction-info') }}" class="header__link">Что такое аукцион?</a>
 
                  @guest
                      <a href="{{ route('login') }}" class="header__link">Вход</a>
