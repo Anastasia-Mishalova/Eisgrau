@@ -27,29 +27,39 @@
             <section id="general-info" class="section">
                 <h2>Общая информация</h2>
                 <div class="user-info">
-                    <img src="../assets/images/product2.jpg" alt="Аватар" class="avatar">
-                    <div class="info">
-                        <h3>Имя Фамилия</h3>
-                        <p>Рейтинг: 4.5</p>
-                        <p>О себе: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptate animi tempora commodi rerum quas. Itaque reprehenderit debitis veritatis iste quod maxime minima non! Laborum ex, sapiente quisquam, placeat repellat earum ducimus est minus ea dolorem, dolore id commodi. Maiores sint in illo. Sint ex praesentium, doloribus ipsa odit alias veritatis.</p>
-                        <p>Город: Москва</p>
-                        <p>Страна: Россия</p>
-                        <p>Дата рождения: 01.01.1990</p>
-                        <p>Созданные аукционы: 10</p>
-                        <p>Выигранные аукционы: 5</p>
-                        <p>Дата регистрации: 01.01.2020</p>
+                    <div class="user-summary">
+                        <img src="{{ $user->avatar_url ? asset('storage/' . $user->avatar_url) : asset('images/design/base-avatar.jpg') }}" alt="Аватар" class="avatar">
+                        <div class="user-summary-text">
+                            <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
+                            <p>{{ $user->rating }}</p>
+                        </div>
+                    </div>
+
+                    <div class="user-details">
+
+                        <p>О себе: {{ $user->bio ?? '—' }} </p>
+                        <p>Город: {{ $user->city ?? '—' }}</p>
+                        {{-- <p>Страна: Россия</p> --}}
+                        <p>Дата рождения: {{ $user->birth_date ?? '—' }}</p>
+                        {{-- <p>Созданные аукционы: 10</p>
+                        <p>Выигранные аукционы: 5</p> --}}
+                        <p>Дата регистрации: {{ $user->created_at->format('d.m.Y') }}</p>
                     </div>
                 </div>
+
+                <button class="edit-profile-btn" onclick="openEditPopup()">Редактировать профиль</button>
             </section>
 
             <div class="two-columns">
                 <section id="won-auctions" class="section">
                     <h2>Выигранные аукционы</h2>
                     <ul class="list">
-                        <li onclick="openAuctionPage('product.php')" class="li">Аукцион 1 <span class="price">1000 ₽</span>
+                        <li onclick="openAuctionPage('product.php')" class="li">Аукцион 1 <span class="price">1000
+                                ₽</span>
                             <p class="seller-email">Почта для связи с продавцом: Test@gmail.com</p>
                         </li>
-                        <li onclick="openAuctionPage('product.php')" class="li">Аукцион 2 <span class="price">1500 ₽</span>
+                        <li onclick="openAuctionPage('product.php')" class="li">Аукцион 2 <span class="price">1500
+                                ₽</span>
                             <p class="seller-email">Почта для связи с продавцом: Test@gmail.com</p>
                         </li>
                     </ul>
@@ -58,8 +68,10 @@
                 <section id="bids" class="section">
                     <h2>Сделанные ставки</h2>
                     <ul class="list">
-                        <li onclick="openAuctionPage('product.php')" class="li">Аукцион 1 <span class="price">900 ₽</span></li>
-                        <li onclick="openAuctionPage('product.php')" class="li">Аукцион 2 <span class="price">1300 ₽</span></li>
+                        <li onclick="openAuctionPage('product.php')" class="li">Аукцион 1 <span class="price">900
+                                ₽</span></li>
+                        <li onclick="openAuctionPage('product.php')" class="li">Аукцион 2 <span class="price">1300
+                                ₽</span></li>
                     </ul>
                 </section>
             </div>
@@ -67,11 +79,17 @@
             <section id="complaints" class="section">
                 <h2>Жалобы</h2>
                 <ul class="list">
-                    <li onclick="openComplaintPopup('Продавец не отправил лот', 'Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 ', 'status')" class="li">Продавец не отправил лот <span class="status">Одобрено</span></li>
-                    <li onclick="openComplaintPopup('Угрозы от пользователя', 'Описание жалобы 2', 'status')" class="li">Угрозы от пользователя <span class="status">В процессе</span></li>
-                    <li onclick="openComplaintPopup('Продавец отправил лот не надлежащего качества', 'Описание жалобы 3', 'status')" class="li">Продавец отправил лот не надлежащего качества <span class="status">Отклонено</span></li>
-                    <li onclick="openComplaintPopup('Поддельный сертификат подлинности', 'Описание жалобы 4', 'status')" class="li">Поддельный сертификат подлинности <span class="status">Отклонено</span></li>
-                    <li onclick="openComplaintPopup('Поддельный сертификат подлинности', 'Описание жалобы 5', 'status')" class="li">Поддельный сертификат подлинности <span class="status">Отклонено</span></li>
+                    <li onclick="openComplaintPopup('Продавец не отправил лот', 'Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 Описание жалобы 1 ', 'status')"
+                        class="li">Продавец не отправил лот <span class="status">Одобрено</span></li>
+                    <li onclick="openComplaintPopup('Угрозы от пользователя', 'Описание жалобы 2', 'status')"
+                        class="li">Угрозы от пользователя <span class="status">В процессе</span></li>
+                    <li onclick="openComplaintPopup('Продавец отправил лот не надлежащего качества', 'Описание жалобы 3', 'status')"
+                        class="li">Продавец отправил лот не надлежащего качества <span
+                            class="status">Отклонено</span></li>
+                    <li onclick="openComplaintPopup('Поддельный сертификат подлинности', 'Описание жалобы 4', 'status')"
+                        class="li">Поддельный сертификат подлинности <span class="status">Отклонено</span></li>
+                    <li onclick="openComplaintPopup('Поддельный сертификат подлинности', 'Описание жалобы 5', 'status')"
+                        class="li">Поддельный сертификат подлинности <span class="status">Отклонено</span></li>
                 </ul>
             </section>
 
@@ -109,10 +127,65 @@
     </div>
 
     <x-footer />
+
+    {{-- поп-ап для редактирования профиля --}}
+    <div id="edit-profile-popup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3>Редактировать профиль</h3>
+                <div class="close" onclick="closeEditPopup()">&times;</div>
+            </div>
+
+            <form method="POST" action="{{ route('profile-update') }}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
+                <div class="form-group">
+                    <label>Имя</label>
+                    <input type="text" name="first_name" value="{{ $user->first_name }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Фамилия</label>
+                    <input type="text" name="last_name" value="{{ $user->last_name }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>О себе</label>
+                    <textarea name="bio">{{ $user->bio }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Город</label>
+                    <input type="text" name="city" value="{{ $user->city }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Дата рождения</label>
+                    <input type="date" name="birth_date" value="{{ $user->birth_date }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Аватар</label>
+                    <input type="file" name="avatar">
+                </div>
+
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+
     <script src="../js/script.js"></script>
     <script>
-        
-    </script>
+    function openEditPopup() {
+        document.getElementById('edit-profile-popup').style.display = 'block';
+    }
+
+    function closeEditPopup() {
+        document.getElementById('edit-profile-popup').style.display = 'none';
+    }
+</script>
 </body>
 
 </html>

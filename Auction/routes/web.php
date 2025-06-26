@@ -31,6 +31,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Профиль пользователя
 Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile-update');
 
 // FAQ и Что такое аукцион
 Route::view('/faq', 'faq')->name('faq');
@@ -39,3 +40,5 @@ Route::view('/auction-info', 'auction-info')->name('auction-info');
 // Политика конфиденциальности и Пользовательское соглашение
 Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
 Route::view('/terms-of-service', 'terms-of-service')->name('terms-of-service');
+
+
