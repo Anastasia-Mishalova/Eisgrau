@@ -26,13 +26,18 @@ class ProfileController extends Controller
             'bio' => 'nullable|string|max:1000',
             'city' => 'nullable|string|max:30',
             'birth_date' => 'nullable|date',
-            'avatar' => 'nullable|image|max:2048',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:7168',
         ]);
 
         if ($request->hasFile('avatar')) {
-        $path = $request->file('avatar')->store('avatars', 'public');
-        $validated['avatar_url'] = $path;
-    }
+            $extension = $request->file('avatar')->getClientOriginalExtension();
+            $filename = $user->id . '.' . $extension;
+
+            $path = $request->file('avatar')->storeAs('avatars', $filename, 'public');
+
+            $validated['avatar_url'] = $path;
+
+        }
 
         $user->update($validated);
 

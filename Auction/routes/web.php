@@ -42,3 +42,5 @@ Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
 Route::view('/terms-of-service', 'terms-of-service')->name('terms-of-service');
 
 
+//для деланья ставки
+Route::post('/lots/{id}/bid', [LotController::class, 'placeBid'])->name('lot.placeBid');

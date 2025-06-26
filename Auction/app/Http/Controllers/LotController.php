@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Bid;
 use App\Models\Lot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class LotController extends Controller
 {
@@ -126,4 +128,41 @@ class LotController extends Controller
 
         return redirect()->route('home')->with('success', 'Лот успешно добавлен!');
     }
+
+    //для деланья ставки
+   public function placeBid(Request $request, $id)
+{
+    $user = Auth::user();
+    $lot = Lot::with('bids')->findOrFail($id);
+
+    if ($lot->auction_end && now()->greaterThan($lot->auction_end)) {
+        return back()->with('error', 'Аукцион завершён');
+    }
+
+    $lastBid = $lot->bids()->latest()->first();
+    if ($lastBid && $lastBid->user_id === $user->id) {
+        return back()->with('error', 'Нельзя делать две ставки подряд');
+    }
+
+    $validated = $request->validate([
+        'bid_amount' => 'required|integer|min:1',
+    ]);
+
+    $bidAmount = $validated['bid_amount'];
+    $min = max($lot->starting_price, $lot->current_price + 1);
+    if ($bidAmount < $min) {
+        return back()->with('error', "Ставка должна быть не меньше $min");
+    }
+
+    Bid::create([
+        'lot_id' => $lot->id,
+        'user_id' => $user->id,
+        'bid_amount' => $bidAmount,
+    ]);
+
+    $lot->current_price = $bidAmount;
+    $lot->save();
+
+    return back();
+}
 }

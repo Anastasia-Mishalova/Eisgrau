@@ -8,4 +8,9 @@ class Lot extends Model
 {
         protected $casts = [
     'auction_end' => 'datetime',];
+
+    //для деланья ставки
+    public function bids() {
+    return $this->hasMany(Bid::class);
+}
 }

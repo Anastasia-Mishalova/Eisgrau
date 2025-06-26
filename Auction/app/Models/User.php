@@ -40,4 +40,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //для деланья ставки
+    public function bids() {
+    return $this->hasMany(Bid::class);
+}
 }

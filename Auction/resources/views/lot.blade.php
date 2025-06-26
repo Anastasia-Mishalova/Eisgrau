@@ -36,7 +36,30 @@
         </div>
 
         <div class="product-details">
-            <button class="product__bid-button button">Ставка</button>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
+            @auth
+                <button class="product__bid-button button" onclick="openBidModal()">Ставка</button>
+            @else
+                <p>Авторизуйтесь, чтобы сделать ставку.</p>
+            @endauth
+
             <button class="product__buyout-button button">Автовыкуп</button>
             <button class="product__addfavorites-button button">Добавить в избранное</button>
 
@@ -74,6 +97,27 @@
         </div>
         </div>
     </main>
+    <x-footer />
+
+    {{-- для деланья ставки --}}
+    <div id="bid-modal" class="bid-modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeBidModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Сделать ставку</h3>
+                <span class="close" onclick="closeBidModal()">&times;</span>
+            </div>
+            <form method="POST" action="{{ route('lot.placeBid', ['id' => $lot->id]) }}">
+                @csrf
+                <div class="form-group">
+                    <label for="bid_amount">Введите сумму ставки:</label>
+                    <input type="number" name="bid_amount" id="bid_amount" min="{{ $lot->current_price + 1 }}"
+                        required>
+                </div>
+                <button type="submit" class="submit-btn">Подтвердить ставку</button>
+            </form>
+        </div>
+    </div>
 
     {{-- модальное окно для галереи чтобы просматривать фотки полноформатно --}}
     <div id="modal" class="modal">
@@ -82,8 +126,6 @@
         <img class="modal-content" id="modalImage">
         <div class="arrow arrow-right" id="modalArrowRight">&#10095;</div>
     </div>
-    <x-footer />
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -199,6 +241,15 @@
                 modal.style.display = 'none';
             }
         });
+
+        // для деланья ставок
+        function openBidModal() {
+            document.getElementById('bid-modal').style.display = 'flex';
+        }
+
+        function closeBidModal() {
+            document.getElementById('bid-modal').style.display = 'none';
+        }
     </script>
 
 </body>

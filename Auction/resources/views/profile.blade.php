@@ -28,7 +28,29 @@
                 <h2>Общая информация</h2>
                 <div class="user-info">
                     <div class="user-summary">
-                        <img src="{{ $user->avatar_url ? asset('storage/' . $user->avatar_url) : asset('images/design/base-avatar.jpg') }}" alt="Аватар" class="avatar">
+                        @if ($errors->any())
+                            <div class="errors">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li style="color: red;">{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @php
+                            use Illuminate\Support\Facades\Storage;
+                            $avatarExists = $user->avatar_url && Storage::disk('public')->exists($user->avatar_url);
+                        @endphp
+
+                        @if ($avatarExists)
+                            <img class="avatar" src="{{ asset('storage/' . $user->avatar_url) }}"
+                                alt="Аватар пользователя" />
+                        @else
+                            <img class="avatar" src="{{ asset('images/design/base-avatar.jpg') }}"
+                                alt="Аватар по умолчанию" />
+                        @endif
+                        
                         <div class="user-summary-text">
                             <h3>{{ $user->first_name }} {{ $user->last_name }}</h3>
                             <p>{{ $user->rating }}</p>
@@ -178,14 +200,14 @@
 
     <script src="../js/script.js"></script>
     <script>
-    function openEditPopup() {
-        document.getElementById('edit-profile-popup').style.display = 'block';
-    }
+        function openEditPopup() {
+            document.getElementById('edit-profile-popup').style.display = 'block';
+        }
 
-    function closeEditPopup() {
-        document.getElementById('edit-profile-popup').style.display = 'none';
-    }
-</script>
+        function closeEditPopup() {
+            document.getElementById('edit-profile-popup').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>
