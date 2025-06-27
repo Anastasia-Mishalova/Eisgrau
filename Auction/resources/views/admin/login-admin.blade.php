@@ -9,36 +9,68 @@
 </head>
 
 <body>
-    <?php include './components/header/header.php'; ?>
+    <x-header-admin />
 
     <div class="login-container">
-        <form class="login-form">
+        <form class="login-form" method="POST" action="{{ route('admin.login.submit') }}">
+            @csrf
+
             <h2>Вход</h2>
+
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" required onchange="checkFormLogin()">
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required>
+                @error('email')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
+
             <div class="form-group">
                 <label for="password">Пароль</label>
                 <div class="password-wrapper">
-                    <input type="password" id="password" required onchange="checkFormLogin()">
-                    <button type="button" class="toggle-password" onclick="togglePassword()">👁</button>
+                    <input type="password" id="password" name="password" required>
+                    <button type="button" class="toggle-password">👁</button>
                 </div>
             </div>
-            <label class="checkbox-container">
-                <input class="custom-checkbox" type="checkbox" id="remember-me" onchange="">
-                <span class="checkmark"></span>
-                <p class="checkmark-text form-options">Запомнить меня</p>
-            </label>
 
             <button id="loginButton" type="submit" class="login-button" disabled>Войти</button>
             <a href="#" class="forgot-password">Забыли пароль?</a>
         </form>
     </div>
 
-    <?php include './components/footer/footer.php'; ?>
-
+    <x-footer-admin />
 </body>
-<script src="../js/script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const loginButton = document.getElementById('loginButton');
+        const toggleButton = document.querySelector('.toggle-password');
+
+        // Кнопка активна только при заполнении полей
+        function checkFormLogin() {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            loginButton.disabled = email === '' || password === '';
+        }
+
+        // Метод для глазика
+        function togglePassword() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '👁';
+            }
+        }
+        
+        emailInput.addEventListener('input', checkFormLogin);
+        passwordInput.addEventListener('input', checkFormLogin);
+        toggleButton.addEventListener('click', togglePassword);
+
+        checkFormLogin();
+    });
+</script>
 
 </html>

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <?php include('./components/header-admin/header.php'); ?>
+     <x-header-admin />
 
     <div class="container">
         <div class="sidebar">
@@ -70,7 +70,7 @@
         </div>
     </div>
 
-    <?php include('./components/footer-admin/footer.php'); ?>
+    <x-footer-admin />
     <script src="../js/script.js"></script>
 </body>
 

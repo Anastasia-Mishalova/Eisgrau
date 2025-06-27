@@ -5,10 +5,12 @@ use App\Http\Controllers\LotController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AdminLoginController;
 
 
 // Домашняя страница
 Route::get('/home', [LotController::class, 'index'])->name('home');
+Route::get('/', [LotController::class, 'index'])->name('home');
 
 
 // Показ конкретного лота
@@ -42,5 +44,14 @@ Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
 Route::view('/terms-of-service', 'terms-of-service')->name('terms-of-service');
 
 
-//для деланья ставки
+// Для деланья ставки
 Route::post('/lots/{id}/bid', [LotController::class, 'placeBid'])->name('lot.placeBid');
+
+//АДМИНКА
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
+Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+
+Route::get('/admin/home', fn() => view('admin.home-admin'))->name('admin.home');
+Route::get('/admin/info', fn() => view('admin.info-admin'))->name('admin.info');
+Route::get('/admin/faq', fn() => view('admin.faq-admin'))->name('admin.faq');

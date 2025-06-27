@@ -9,8 +9,8 @@
 </head>
 
 <body>
-    <?php include './components/header-admin/header.php'; ?>
-    <?php include './components/categories-questions/categories-questions.php'; ?>
+    <x-header-admin />
+    {{-- ДОБАВИТЬ КОМПОНЕНТЫ для терминов --}}
 
     <div class="questions">
         <div class="question-item">
@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <?php include './components/footer/footer.php'; ?>
+    <x-footer-admin />
 </body>
 
 </html>

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <?php include './components/header/header.php'; ?>
+    <x-header-admin />
     <div class="questions">
         <div class="question-item">
             <h2 class="question">Вопрос 1</h2>
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <?php include './components/footer/footer.php'; ?>
+    <x-footer-admin />
 </body>
 
 </html>
