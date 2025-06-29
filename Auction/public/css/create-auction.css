@@ -64,23 +64,18 @@ body {
     width: 70%;
     display: flex;
     align-items: center;
-    border: solid 1px #364f49;
     height: 100%;
 }
 
 .radio-group {
     display: flex;
     flex-direction: column;
-    border-right: solid 1px #364f49;
     padding: 20px;
-    /* width: 100%;
-    height: 100%; */
 }
 
 .description {
     resize: none;
     height: 150px;
-    width: 100%;
 }
 
 .condition {
@@ -91,6 +86,13 @@ body {
 
 .info-condition {
     padding: 20px;
+    flex: 2;
+    font-size: 0.9rem;
+    color: #666;
+    background-color: #f7f9fc;
+    border-radius: 8px;
+    min-height: 90px;
+    line-height: 1.4;
 }
 
 .create-lot {
@@ -115,7 +117,42 @@ body {
     background-color: rgb(35, 52, 48);
 }
 
+.input-group label {
+    margin-bottom: 6px;
+    color: #333;
+}
 
+.input-group input[type="text"],
+.input-group input[type="number"],
+.input-group input[type="datetime-local"],
+.input-group textarea {
+    padding: 10px 12px;
+    border: 1.8px solid #bbb;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+}
+
+.input-group input[type="text"]:focus,
+.input-group input[type="number"]:focus,
+.input-group input[type="datetime-local"]:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: #364f49;
+}
+
+.radio-group label {
+    cursor: pointer;
+    font-weight: 500;
+    color: #444;
+    user-select: none;
+    position: relative;
+    padding-left: 28px;
+    line-height: 1.4;
+}
+.checkmark-text {
+    margin-left: 8px;
+}
 
 
 
@@ -170,3 +207,4 @@ body {
     line-height: 20px;
     font-size: 14px;
 }
+

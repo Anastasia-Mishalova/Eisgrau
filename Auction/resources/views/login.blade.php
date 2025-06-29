@@ -34,8 +34,8 @@
             </div>
             <label class="checkbox-container">
                 <input class="custom-checkbox" type="checkbox" id="remember-me" name="remember">
-                <span class="checkmark"></span>
-                <p class="checkmark-text form-options">Запомнить меня</p>
+                <span class="checkmark">Запомнить меня</span>
+                {{-- <p class="checkmark-text form-options">Запомнить меня</p> --}}
             </label>
 
             <button id="loginButton" type="submit" class="login-button" disabled>Войти</button>

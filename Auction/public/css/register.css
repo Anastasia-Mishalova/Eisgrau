@@ -81,7 +81,7 @@ input[type="text"]:focus {
 
 .register-link a,
 .form-options a {
-    padding-left: 5px;
+    /* padding-left: 5px; */
     text-decoration: none;
     color: #364f49;
 
@@ -94,11 +94,6 @@ input[type="text"]:focus {
     background: none;
     border: none;
     cursor: pointer;
-}
-
-.form-options {
-    float: left;
-    margin-bottom: 15px;
 }
 
 .register-button {

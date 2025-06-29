@@ -271,113 +271,113 @@ class LotSeeder extends Seeder
         //     ]);
         // }
 
-        $categoryId = DB::table('categories')->insertGetId([
-            'category_name' => 'Доспехи',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // $categoryId = DB::table('categories')->insertGetId([
+        //     'category_name' => 'Доспехи',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
 
-        $filterId = DB::table('filters')->insertGetId([
-            'category_id' => $categoryId,
-            'filter_name' => 'Типы доспехов',
-            'is_system_only' => false,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // $filterId = DB::table('filters')->insertGetId([
+        //     'category_id' => $categoryId,
+        //     'filter_name' => 'Типы доспехов',
+        //     'is_system_only' => false,
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
 
-        // Подфильтры
-        $options = [
-            'Латные',
-            'Кольчужные',
-            'Кожаные',
-            'Тканевые',
-            'Зерцала',
-            'Бригантина',
-            'Шлемы',
-            'Шапки и платки',
-            'Торс',
-            'Руки',
-            'Ноги',
-            'Полный комплект',
-            'Частичный комплект',
-        ];
+        // // Подфильтры
+        // $options = [
+        //     'Латные',
+        //     'Кольчужные',
+        //     'Кожаные',
+        //     'Тканевые',
+        //     'Зерцала',
+        //     'Бригантина',
+        //     'Шлемы',
+        //     'Шапки и платки',
+        //     'Торс',
+        //     'Руки',
+        //     'Ноги',
+        //     'Полный комплект',
+        //     'Частичный комплект',
+        // ];
 
-        foreach ($options as $name) {
-            DB::table('filters_options')->insert([
-                'filter_id' => $filterId,
-                'filter_option_name' => $name,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-
-
-        $categoryId = DB::table('categories')->insertGetId([
-            'category_name' => 'Религия',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        $filterId = DB::table('filters')->insertGetId([
-            'category_id' => $categoryId,
-            'filter_name' => 'Типы религиозных предметов',
-            'is_system_only' => false,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        // Подфильтры
-        $options = [
-            'Церемониальные предметы',
-            'Утварь',
-            'Одежда',
-            'Украшения',
-            'Книги и рукописи',
-            'Изображения и иконы',
-        ];
-
-        foreach ($options as $name) {
-            DB::table('filters_options')->insert([
-                'filter_id' => $filterId,
-                'filter_option_name' => $name,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        // foreach ($options as $name) {
+        //     DB::table('filters_options')->insert([
+        //         'filter_id' => $filterId,
+        //         'filter_option_name' => $name,
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
+        // }
 
 
-        $categoryId = DB::table('categories')->insertGetId([
-            'category_name' => 'Книги и манускрипты',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // $categoryId = DB::table('categories')->insertGetId([
+        //     'category_name' => 'Религия',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
 
-        $filterId = DB::table('filters')->insertGetId([
-            'category_id' => $categoryId,
-            'filter_name' => 'Типы книг',
-            'is_system_only' => false,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // $filterId = DB::table('filters')->insertGetId([
+        //     'category_id' => $categoryId,
+        //     'filter_name' => 'Типы религиозных предметов',
+        //     'is_system_only' => false,
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
 
-        // Подфильтры
-        $options = [
-            'Печатные книги',
-            'Рукописи',
-            'Манускрипты',
-            'Письма',
-            'Индульценции',
-            'Хартии',
-        ];
+        // // Подфильтры
+        // $options = [
+        //     'Церемониальные предметы',
+        //     'Утварь',
+        //     'Одежда',
+        //     'Украшения',
+        //     'Книги и рукописи',
+        //     'Изображения и иконы',
+        // ];
 
-        foreach ($options as $name) {
-            DB::table('filters_options')->insert([
-                'filter_id' => $filterId,
-                'filter_option_name' => $name,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        // foreach ($options as $name) {
+        //     DB::table('filters_options')->insert([
+        //         'filter_id' => $filterId,
+        //         'filter_option_name' => $name,
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
+        // }
+
+
+        // $categoryId = DB::table('categories')->insertGetId([
+        //     'category_name' => 'Книги и манускрипты',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
+
+        // $filterId = DB::table('filters')->insertGetId([
+        //     'category_id' => $categoryId,
+        //     'filter_name' => 'Типы книг',
+        //     'is_system_only' => false,
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
+
+        // // Подфильтры
+        // $options = [
+        //     'Печатные книги',
+        //     'Рукописи',
+        //     'Манускрипты',
+        //     'Письма',
+        //     'Индульценции',
+        //     'Хартии',
+        // ];
+
+        // foreach ($options as $name) {
+        //     DB::table('filters_options')->insert([
+        //         'filter_id' => $filterId,
+        //         'filter_option_name' => $name,
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
+        // }
 
 
 

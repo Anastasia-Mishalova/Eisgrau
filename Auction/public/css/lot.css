@@ -100,7 +100,7 @@ body {
   background-color: #f9f9f9;
   color: #364f49;
   text-align: center;
-  padding: 10px 0;
+  padding: 10px 5px;
   border-bottom: 1px dotted #e9e9e9;
 }
 
@@ -180,7 +180,7 @@ body {
 }
 
 /* ==== Модальное окно ==== */
-.modal {
+.modal-photos {
   display: none;
   position: fixed;
   z-index: 999;
@@ -192,7 +192,7 @@ body {
   background-color: rgba(0, 0, 0, 0.85);
 }
 
-.modal-content {
+.modal-content-photos {
   display: block;
   margin: auto;
   max-width: 90%;
@@ -201,7 +201,7 @@ body {
   transition: opacity 0.3s ease;
 }
 
-.modal-close {
+.modal-close-photos {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -270,3 +270,40 @@ body {
   margin-bottom: 1rem;
 }
 
+.form-group input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border 0.2s;
+}
+
+.seller-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.seller-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.seller-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.seller-name {
+  font-weight: bold;
+  margin: 0;
+}
+
+.seller-role {
+  color: #666;
+  margin: 0;
+}

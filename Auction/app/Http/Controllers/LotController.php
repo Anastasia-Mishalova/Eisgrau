@@ -62,9 +62,14 @@ class LotController extends Controller
         $bids = DB::table('bids')
             ->where('lot_id', $lot->id)
             ->join('users', 'bids.user_id', '=', 'users.id')
-            ->select('bids.*', 'users.first_name', 'users.last_name')
+            ->select('bids.*', 'users.first_name', 'users.last_name', 'users.avatar_url')
             ->orderByDesc('bids.bid_amount')
             ->get();
+
+        $seller = DB::table('users')->where('id', $lot->seller_id)->first();
+        $lot->seller_first_name = $seller->first_name ?? 'Имя';
+        $lot->seller_last_name = $seller->last_name ?? 'Фамилия';
+        $lot->seller_avatar_url = $seller->avatar_url ?? null;
 
         return view('lot', compact('lot', 'photos', 'bids'));
     }
@@ -130,39 +135,39 @@ class LotController extends Controller
     }
 
     //для деланья ставки
-   public function placeBid(Request $request, $id)
-{
-    $user = Auth::user();
-    $lot = Lot::with('bids')->findOrFail($id);
+    public function placeBid(Request $request, $id)
+    {
+        $user = Auth::user();
+        $lot = Lot::with('bids')->findOrFail($id);
 
-    if ($lot->auction_end && now()->greaterThan($lot->auction_end)) {
-        return back()->with('error', 'Аукцион завершён');
+        if ($lot->auction_end && now()->greaterThan($lot->auction_end)) {
+            return back()->with('error', 'Аукцион завершён');
+        }
+
+        $lastBid = $lot->bids()->latest()->first();
+        if ($lastBid && $lastBid->user_id === $user->id) {
+            return back()->with('error', 'Нельзя делать две ставки подряд');
+        }
+
+        $validated = $request->validate([
+            'bid_amount' => 'required|integer|min:1',
+        ]);
+
+        $bidAmount = $validated['bid_amount'];
+        $min = max($lot->starting_price, $lot->current_price + 1);
+        if ($bidAmount < $min) {
+            return back()->with('error', "Ставка должна быть не меньше $min");
+        }
+
+        Bid::create([
+            'lot_id' => $lot->id,
+            'user_id' => $user->id,
+            'bid_amount' => $bidAmount,
+        ]);
+
+        $lot->current_price = $bidAmount;
+        $lot->save();
+
+        return back();
     }
-
-    $lastBid = $lot->bids()->latest()->first();
-    if ($lastBid && $lastBid->user_id === $user->id) {
-        return back()->with('error', 'Нельзя делать две ставки подряд');
-    }
-
-    $validated = $request->validate([
-        'bid_amount' => 'required|integer|min:1',
-    ]);
-
-    $bidAmount = $validated['bid_amount'];
-    $min = max($lot->starting_price, $lot->current_price + 1);
-    if ($bidAmount < $min) {
-        return back()->with('error', "Ставка должна быть не меньше $min");
-    }
-
-    Bid::create([
-        'lot_id' => $lot->id,
-        'user_id' => $user->id,
-        'bid_amount' => $bidAmount,
-    ]);
-
-    $lot->current_price = $bidAmount;
-    $lot->save();
-
-    return back();
-}
 }

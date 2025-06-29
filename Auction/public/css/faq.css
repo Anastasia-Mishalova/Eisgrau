@@ -12,6 +12,17 @@ body {
     color: #171c20;
     font-size: 14px;
 }
+
+.logo{
+    width: 5%;
+    margin: auto;
+    opacity: 0.2;
+}
+
+.mirrored-logo{
+    transform: scaleX(-1);
+} 
+
 .questions {
     display: flex;
     flex-direction: column;

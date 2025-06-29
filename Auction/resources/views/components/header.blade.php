@@ -5,8 +5,8 @@
          <div class="header__menu">
              <a href="{{ route('home') }}" class="header__link-logo">
                  <div class="header__logo">
-                     <img class="header__logo-image" src='/images/design/logo.png' alt="Логотип">
-                     <p class="header__title">Аукцион</p>
+                     <img class="header__logo-image" src='/images/design/logo-flammard.png' alt="Логотип">
+                     <p class="header__title">Eisgrau</p>
                  </div>
              </a>
              

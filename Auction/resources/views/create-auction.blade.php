@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="input-group">
+        {{-- <div class="input-group">
             <label>Загрузить сертификат подлинности:</label>
             <div class="photo-upload">
                 <div class="photo-uploader">
@@ -40,7 +40,7 @@
                     <div class="photo-uploader" id="certPreviewContainer"></div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="input-group">
             <label for="title">Заголовок</label>
@@ -51,7 +51,7 @@
             <label for="description">Описание</label>
             <textarea class="description" name="descr" id="descr" required></textarea>
         </div>
-        <h3>Степень сохранности</h3>
+        <label for="condition">Степень сохранности</label>
         <div class="input-group condition-group">
 
             <div class="condition">
@@ -94,7 +94,8 @@
             <label class="checkbox-container">
                 <input type="checkbox" class="custom-checkbox" id="terms">
                 <span class="checkmark"></span>
-                <p class="checkmark-text">Я прочел условия</p>
+                {{-- <span class="checkmark-text">Я прочел <a href="{{ route('') }}">условия</a></span> --}}
+                <span class="checkmark-text">Я прочел условия</span>
             </label>
         </div>
 

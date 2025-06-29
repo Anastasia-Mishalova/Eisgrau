@@ -94,10 +94,10 @@ input[type="text"]:focus {
     cursor: pointer;
 }
 
-.form-options {
+/* .form-options {
     float: left;
     margin-bottom: 15px;
-}
+} */
 
 .login-button {
     width: 100%;

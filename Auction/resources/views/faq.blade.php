@@ -1,40 +1,80 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вопросы и Ответы</title>
     <link rel="stylesheet" href="{{ asset('css/faq.css') }}">
 </head>
+
 <body>
     <x-header />
     <div class="questions">
+        <img class="logo mirrored-logo" src="/images/design/logo-star.png" alt="">
         <div class="question-item">
-            <h2 class="question">Вопрос 1</h2>
-            <p class="answer">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci sequi unde magni laboriosam asperiores, velit amet qui error similique eligendi rem possimus sunt? Officia deleniti autem at incidunt consequatur quos impedit voluptas eveniet eum qui molestiae, maiores cum earum sunt neque tempore fugiat molestias voluptatum expedita similique laboriosam. Vero fuga saepe fugiat, ratione quam suscipit illum ut. Voluptate officia consectetur itaque voluptates dicta ducimus, deserunt dolores eius fugit eaque, nam facere! Neque ducimus velit beatae, incidunt voluptatibus, quae est quasi eveniet explicabo ipsum placeat maiores adipisci soluta labore saepe reprehenderit accusantium doloribus accusamus aspernatur nulla. Dolorum nam aliquid dolores porro.</p>
+            <h2 class="question">Можно ли участвовать в торгах без регистрации?</h2>
+            <p class="answer"> Нет, для участия в торгах необходимо зарегистрироваться и войти в личный кабинет</p>
         </div>
-
+        <img class="logo normal-logo" src="/images/design/logo-star.png" alt="">
         <div class="question-item">
-            <h2 class="question">Вопрос 2</h2>
-            <p class="answer">Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis sit sunt ad magnam fugit veritatis, deserunt odit molestiae dolorum distinctio, culpa commodi odio labore deleniti porro eum itaque laborum? Nulla, laudantium quibusdam accusamus aut dicta mollitia fugiat optio est consequatur, accusantium dolor a commodi perspiciatis libero fugit ex ducimus corporis!</p>
+            <h2 class="question">Как сделать ставку на лот?</h2>
+            <p class="answer">Перейди на страницу интересующего лота и нажми кнопку "Ставка". В появившемся окне укажи
+                сумму, которая должна быть выше текущей цены, и подтвердите действие, нажав на кнопку Сделать ставку</p>
         </div>
-
+        <img class="logo mirrored-logo" src="/images/design/logo-star.png" alt="">
         <div class="question-item">
-            <h2 class="question">Вопрос 3</h2>
-            <p class="answer">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum, quis?</p>
+            <h2 class="question">Что такое “Автовыкуп”?</h2>
+            <p class="answer">Автовыкуп — это возможность приобрести лот сразу, не дожидаясь окончания аукциона. Если
+                продавец указал такую опцию, рядом с лотом будет кнопка "Автовыкуп"</p>
         </div>
-
+        <img class="logo normal-logo" src="/images/design/logo-star.png" alt="">
         <div class="question-item">
-            <h2 class="question">Вопрос 4</h2>
-            <p class="answer">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, blanditiis numquam nisi dolor unde corrupti excepturi aliquid aut ad perspiciatis porro laborum quam voluptate expedita nihil, veritatis cupiditate. Nobis enim velit voluptatum dolore ullam perferendis, repudiandae exercitationem itaque provident, quidem dolorem corrupti et, nemo neque! Non quos exercitationem illo quae veritatis iure officiis iusto nulla atque et sunt quasi sequi voluptates, voluptate dignissimos officia qui eum dolores, eos numquam quidem autem, labore consequuntur. Doloribus, commodi et reprehenderit odio minus fugit omnis, corrupti officia, vel recusandae perspiciatis incidunt amet! Delectus, distinctio. Consequuntur harum ullam facilis. Quis rerum sequi impedit est, id illum! Tempora dolor accusantium quae fuga, molestiae repellendus adipisci nemo! Sed id nesciunt delectus, voluptas officiis, aut cum accusantium, recusandae quia perferendis qui ipsam? Officiis ratione placeat accusantium voluptate quo dolorum totam error. Temporibus dolore error exercitationem deleniti quia autem architecto beatae aliquam fuga consequuntur, fugiat vero. Quisquam quo obcaecati tempore voluptate minus? Ea eos autem, aperiam deleniti ipsam molestiae ipsum magnam tempora enim corrupti aliquid veritatis reprehenderit ad libero possimus in a animi recusandae eveniet, nobis ratione repellat. Cumque atque delectus sint qui officiis a nesciunt repudiandae doloremque, porro pariatur, minima neque laborum sed debitis ipsam rem ex tempora.</p>
+            <h2 class="question">Как узнать, выиграл ли я аукцион?</h2>
+            <p class="answer">После завершения аукциона победитель получает уведомление в личном кабинете в разделе
+                "Выигранные аукционы" и на электронную почту. Также статус будет отображаться на странице лота</p>
         </div>
-
+        <img class="logo mirrored-logo" src="/images/design/logo-star.png" alt="">
         <div class="question-item">
-            <h2 class="question">Вопрос 5</h2>
-            <p class="answer">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam unde exercitationem eius odit ut alias tempore esse et aliquam eveniet.</p>
+            <h2 class="question">Могу ли я отменить свою ставку?</h2>
+            <p class="answer">Нет, после подтверждения ставка считается действительной и не подлежит отмене. Будь
+                внимателен перед подтверждением</p>
+        </div>
+        <img class="logo normal-logo" src="/images/design/logo-star.png" alt="">
+        <div class="question-item">
+            <h2 class="question">Как связаться с продавцом после победы в торгах?</h2>
+            <p class="answer">После завершения аукциона в личном кабинете в разделе Выигранные аукционы под интересующим
+                вас выигранным лотом будет электронная почта продавца для связи. Продавец, в свою очередь, так же
+                получит вашу</p>
+        </div>
+        <img class="logo mirrored-logo" src="/images/design/logo-star.png" alt="">
+        <div class="question-item">
+            <h2 class="question">Могу ли я выставить свой лот на продажу?</h2>
+            <p class="answer">Да, если ты зарегистрирован как продавец. Перейди в раздел "Добавить лот" в личном
+                кабинете и заполни форму с описанием, фото и условиями аукциона</p>
+        </div>
+        <img class="logo normal-logo" src="/images/design/logo-star.png" alt="">
+        <div class="question-item">
+            <h2 class="question">Что происходит, если два пользователя делают одинаковую ставку?</h2>
+            <p class="answer">Побеждает тот, кто первым сделал ставку. Система фиксирует точное время каждой ставки
+                вплоть до миллисекунд</p>
+        </div>
+        <img class="logo mirrored-logo" src="/images/design/logo-star.png" alt="">
+        <div class="question-item">
+            <h2 class="question">Как я могу оплатить и получить лот?</h2>
+            <p class="answer">По поводу оплаты и получения лота вы договариваетесь с продавцом через электронную почту
+            </p>
+        </div>
+        <img class="logo normal-logo" src="/images/design/logo-star.png" alt="">
+        <div class="question-item">
+            <h2 class="question">Что будет, если я нарушу правила аукциона или кого-нибудь обману?</h2>
+            <p class="answer">В случае доказанного обмана или мошенничества вы будете навсегда заблокированы, информация
+                о вас будет расположена на странице Позор сайта и вы понесете серьезные репутационные потери. В
+                определенных случаях возможно применение иных мер наказания по усмотрению администрации</p>
         </div>
     </div>
 
     <x-footer />
 </body>
+
 </html>

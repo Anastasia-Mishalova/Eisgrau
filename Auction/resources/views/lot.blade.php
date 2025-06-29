@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/home.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('css/lot.css') }}">
     <title>Лот</title>
 </head>
@@ -79,7 +79,8 @@
                     @forelse ($bids as $bid)
                         <div class="bet">
                             <div class="bet__name">
-                                <div class="avatar"></div>
+                                <img src="{{ $bid->avatar_url ? asset('storage/' . $bid->avatar_url) : asset('images/design/base-avatar.jpg') }}"
+                                    alt="Аватар" class="avatar">
                                 <div>{{ $bid->first_name }} {{ $bid->last_name }}</div>
                             </div>
                             <div><strong>{{ $bid->bid_amount }}$</strong></div>
@@ -93,7 +94,15 @@
                     Старт с {{ $lot->starting_price }}$
                 </div>
             </div>
+            <div class="seller-info">
+                <img src="{{ $lot->seller_avatar_url ? asset('storage/' . $lot->seller_avatar_url) : asset('images/design/base-avatar.jpg') }}"
+                    alt="Аватар продавца" class="seller-avatar">
 
+                <div class="seller-details">
+                    <p class="seller-name">{{ $lot->seller_first_name }} {{ $lot->seller_last_name }}</p>
+                    <p class="seller-role">Продавец</p>
+                </div>
+            </div>
         </div>
         </div>
     </main>
@@ -114,16 +123,16 @@
                     <input type="number" name="bid_amount" id="bid_amount" min="{{ $lot->current_price + 1 }}"
                         required>
                 </div>
-                <button type="submit" class="submit-btn">Подтвердить ставку</button>
+                <button type="submit" class="button">Подтвердить ставку</button>
             </form>
         </div>
     </div>
 
     {{-- модальное окно для галереи чтобы просматривать фотки полноформатно --}}
-    <div id="modal" class="modal">
-        <span id="modalClose" class="modal-close">&times;</span>
+    <div id="modal" class="modal-photos">
+        <span id="modalClose" class="modal-close-photos">&times;</span>
         <div class="arrow arrow-left" id="modalArrowLeft">&#10094;</div>
-        <img class="modal-content" id="modalImage">
+        <img class="modal-content-photos" id="modalImage">
         <div class="arrow arrow-right" id="modalArrowRight">&#10095;</div>
     </div>
 
