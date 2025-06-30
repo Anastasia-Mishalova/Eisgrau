@@ -99,8 +99,8 @@ class LotController extends Controller
 
         // Сохраняю лот 
         $lotId = DB::table('lots')->insertGetId([
-            // 'seller_id' => auth()->id(), 
-            'seller_id' => 1, // временно, пока не будет авторизация TODO НЕ ЗАБЫТЬ ЗАМЕНИТЬ!!!!!!!!!!!!!!!!
+            'seller_id' => Auth::id(), 
+            // 'seller_id' => 1, // временно, пока не будет авторизация TODO НЕ ЗАБЫТЬ ЗАМЕНИТЬ!!!!!!!!!!!!!!!!
             'title' => $validated['title'],
             'descr' => $validated['descr'],
             'quality_id' => $validated['quality_id'],
