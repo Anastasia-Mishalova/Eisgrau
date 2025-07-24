@@ -20,10 +20,12 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'email',
         'bio',
         'city',
         'birth_date',
         'avatar_url',
+        'password',
     ];
 
     /**
@@ -32,7 +34,6 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -42,7 +43,8 @@ class User extends Authenticatable
     ];
 
     //для деланья ставки
-    public function bids() {
-    return $this->hasMany(Bid::class);
-}
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
 }
