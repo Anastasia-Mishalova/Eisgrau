@@ -26,7 +26,7 @@
                 {{ $lot->title }}</h2>
             <p class="product__description">{{ $lot->descr }}</p>
             <div class="product__condition">
-                <div>Состояние: <span class="product__condition-value">Идеальное</span></div>
+                <div>Состояние: <span class="product__condition-value">{{ $lot->quality_name }}</span></div>
             </div>
             <div class="product__tags">
                 <div class="product__tag-item">Мечи</div>

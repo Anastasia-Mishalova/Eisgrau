@@ -22,6 +22,10 @@ class LotController extends Controller
             $query->where('title', 'like', '%' . $search . '%')
                 ->orWhere('descr', 'like', '%' . $search . '%');
         }
+
+        // для отображения только актуальных лотов 
+        $query->where('auction_end', '>', Carbon::now());
+        
         $lots = $query->get()->map(function ($lot) {
 
             //получаем время до конца аукциона
@@ -35,6 +39,14 @@ class LotController extends Controller
                 ->orderBy('id')
                 ->first();
             $lot->photo_url = $photo ? $photo->photo_url : null;
+
+            // Максимальная ставка по лоту
+            $maxBid = DB::table('bids')
+                ->where('lot_id', $lot->id)
+                ->max('bid_amount');
+
+            // Текущая цена — максимум из ставки или стартовой цены
+            $lot->current_price = $maxBid ?? $lot->starting_price;
 
             return $lot;
         });
@@ -99,7 +111,7 @@ class LotController extends Controller
 
         // Сохраняю лот 
         $lotId = DB::table('lots')->insertGetId([
-            'seller_id' => Auth::id(), 
+            'seller_id' => Auth::id(),
             // 'seller_id' => 1, // временно, пока не будет авторизация TODO НЕ ЗАБЫТЬ ЗАМЕНИТЬ!!!!!!!!!!!!!!!!
             'title' => $validated['title'],
             'descr' => $validated['descr'],

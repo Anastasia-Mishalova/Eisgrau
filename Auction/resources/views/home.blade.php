@@ -278,7 +278,7 @@
                     </div>
                     <div class="card__bottom">
                         <h3 class="card__title" title="{{ $lot->title }}">{{ $lot->title }}</h3>
-                        <p class="card__price">Цена: {{ $lot->starting_price }} $</p>
+                        <p class="card__price">Цена: {{ $lot->current_price }} $</p>
 
                         @if ($lot->time_left->days == 0 && $lot->time_left->h > 0)
                             <p class="card__add">До конца: {{ $lot->time_left->h }} ч.</p>
