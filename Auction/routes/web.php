@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LotController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\AdminLoginController;
 
 
@@ -47,11 +50,36 @@ Route::view('/terms-of-service', 'terms-of-service')->name('terms-of-service');
 // Для деланья ставки
 Route::post('/lots/{id}/bid', [LotController::class, 'placeBid'])->name('lot.placeBid');
 
+// Для истории сделанных ставок
+Route::get('/lots/{id}', [LotController::class, 'show'])->name('lot.show');
+
+// Для смены пароля
+Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.password.update');
+
+// Для страницы Стать продавцом
+Route::get('/create-seller', [SellerController::class, 'create'])->name('seller.create');
+Route::post('/store', [SellerController::class, 'store'])->name('seller.store');
+Route::get('/create-auction', [LotController::class, 'create'])->name('lots.create');
+
+// Для подачи жалобы 
+Route::post('/lots/{lot}/complaint', [ComplaintController::class, 'store'])->name('complaints.store');
+
 //АДМИНКА
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+Route::get('/admin/home', [AdminController::class, 'home'])->name('admin.home');
+Route::delete('/admin/lots/{id}', [AdminController::class, 'destroyLot'])->name('admin.lots.destroy');
+Route::post('/admin/users/{id}/ban', [AdminController::class, 'banUser'])->name('admin.users.ban');
+Route::patch('/admin/users/{id}/unban', [AdminController::class, 'unbanUser'])->name('admin.users.unban');
+Route::get('/admin/search', [AdminController::class, 'ajaxSearch'])->name('admin.search');
+Route::get('/lots/filtered', [LotController::class, 'filtered'])->name('lots.filtered');
+Route::post('admin/complaints/{id}/update-status', [AdminController::class, 'updateStatus'])->name('admin.complaints.updateStatus');
 
-Route::get('/admin/home', fn() => view('admin.home-admin'))->name('admin.home');
+
+
+
+
+// Route::get('/admin/home', fn() => view('admin.home-admin'))->name('admin.home');
 Route::get('/admin/info', fn() => view('admin.info-admin'))->name('admin.info');
 Route::get('/admin/faq', fn() => view('admin.faq-admin'))->name('admin.faq');

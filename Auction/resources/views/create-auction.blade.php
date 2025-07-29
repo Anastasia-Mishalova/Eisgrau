@@ -53,7 +53,6 @@
         </div>
         <label for="condition">Степень сохранности</label>
         <div class="input-group condition-group">
-
             <div class="condition">
                 <div class="radio-group">
                     @foreach ($qualities as $quality)
@@ -76,6 +75,19 @@
                     </p>
                 </div>
             </div>
+        </div>
+
+        <div class="input-group">
+            <label for="categories">Выберите категорию</label>
+            <select name="categories[]" id="categories" multiple required>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div id="filters-container" class="input-group">
+
         </div>
 
         <div class="input-group">
@@ -170,43 +182,118 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
         const submitButton = document.getElementById('createLot');
+
         const requiredFields = [
             document.getElementById('title'),
             document.getElementById('descr'),
             document.getElementById('starting_price'),
             document.getElementById('auction_end'),
         ];
+
         const qualityRadios = document.querySelectorAll('input[name="quality_id"]');
         const termsCheckbox = document.getElementById('terms');
+        const categoriesSelect = document.getElementById('categories');
+        const fileInput = document.getElementById('lotFileInput');
 
         function isQualitySelected() {
             return Array.from(qualityRadios).some(radio => radio.checked);
         }
 
-        function checkFormValidity() {
-            let allFilled = true;
-            for (const field of requiredFields) {
-                if (field.value.trim() === '') {
-                    allFilled = false;
-                    break;
-                }
-            }
-            const qualitySelected = isQualitySelected();
-            const termsChecked = termsCheckbox.checked;
-
-            if (allFilled && qualitySelected && termsChecked) {
-                submitButton.disabled = false;
-            } else {
-                submitButton.disabled = true;
-            }
+        function hasSelectedCategories() {
+            return Array.from(categoriesSelect.selectedOptions).length > 0;
         }
 
-        [requiredFields, termsCheckbox, qualityRadios].forEach(element => {
+        function hasAtLeastOnePhoto() {
+            return fileInput.files && fileInput.files.length > 0;
+        }
+
+        function checkFormValidity() {
+            const allFilled = requiredFields.every(field => field.value.trim() !== '');
+            const qualitySelected = isQualitySelected();
+            const termsChecked = termsCheckbox.checked;
+            const categoriesSelected = hasSelectedCategories();
+            const photoUploaded = hasAtLeastOnePhoto();
+
+            submitButton.disabled = !(allFilled && qualitySelected && termsChecked && categoriesSelected &&
+                photoUploaded);
+        }
+
+        [...requiredFields, categoriesSelect, fileInput, termsCheckbox, ...qualityRadios].forEach(element => {
             element.addEventListener('input', checkFormValidity);
             element.addEventListener('change', checkFormValidity);
         });
 
         checkFormValidity();
+    });
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const categoriesSelect = document.getElementById('categories');
+        const filtersContainer = document.getElementById('filters-container');
+
+        const filters = @json($filters);
+
+        function renderFilters(selectedCategories) {
+            filtersContainer.innerHTML = '';
+
+            selectedCategories.forEach(categoryId => {
+                if (!filters[categoryId]) return;
+
+                filters[categoryId].forEach(filter => {
+                    const fieldset = document.createElement('fieldset');
+                    fieldset.className = 'filters-group checkbox-container';
+                    const legend = document.createElement('legend');
+                    legend.textContent = filter.filter_name;
+                    fieldset.appendChild(legend);
+
+                    filter.options.forEach(option => {
+                        const label = document.createElement('label');
+                        label.className = 'checkbox-container';
+
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.name = 'filter_options[]';
+                        checkbox.value = option.id;
+                        checkbox.className = 'custom-checkbox';
+
+                        const checkmark = document.createElement('span');
+                        checkmark.className = 'checkmark';
+
+                        const text = document.createElement('p');
+                        text.className = 'checkmark-text';
+                        text.textContent = option.filter_option_name;
+
+                        label.appendChild(checkbox);
+                        label.appendChild(checkmark);
+                        label.appendChild(text);
+
+                        fieldset.appendChild(label);
+                    });
+
+                    filtersContainer.appendChild(fieldset);
+                });
+            });
+        }
+
+        categoriesSelect.addEventListener('change', () => {
+            const selectedOptions = Array.from(categoriesSelect.selectedOptions);
+            const selectedIds = selectedOptions.map(option => option.value);
+            renderFilters(selectedIds);
+        });
+
+        @if (old('categories'))
+            renderFilters(@json(old('categories')));
+            const oldFilterOptions = @json(old('filter_options', []));
+            setTimeout(() => {
+                oldFilterOptions.forEach(id => {
+                    const checkbox = document.querySelector(
+                        'input[name="filter_options[]"][value="' + id + '"]');
+                    if (checkbox) checkbox.checked = true;
+                });
+            }, 100);
+        @endif
     });
 </script>
 

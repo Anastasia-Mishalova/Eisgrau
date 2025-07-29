@@ -29,8 +29,8 @@
                 <div>Состояние: <span class="product__condition-value">{{ $lot->quality_name }}</span></div>
             </div>
             <div class="product__tags">
-                <div class="product__tag-item">Мечи</div>
-                <div class="product__tag-item">Церемониальные предметы</div>
+                {{-- <div class="product__tag-item">Мечи</div>
+                <div class="product__tag-item">Церемониальные предметы</div> --}}
                 <div class="product__tag-item">{{ $lot->quality_name }}</div>
             </div>
         </div>
@@ -60,54 +60,81 @@
                 <p>Авторизуйтесь, чтобы сделать ставку.</p>
             @endauth
 
-            <button class="product__buyout-button button">Автовыкуп</button>
-            <button class="product__addfavorites-button button">Добавить в избранное</button>
+             <button class="product__addfavorites-button button" id="openComplaintModal">Пожаловаться</button>
 
-            <div class="bids">
-                <div class="bids__top">
-                    @if ($lot->auction_end)
-                        <p>
-                            До конца аукциона:
-                            <span id="countdown" data-end="{{ $lot->auction_end->toIso8601String() }}"></span>
-                        </p>
-                    @else
-                        <p>Аукцион завершён</p>
-                    @endif
+                <div class="bids">
+                    <div class="bids__top">
+                        @if ($lot->auction_end)
+                            <p>
+                                До конца аукциона:
+                                <span id="countdown" data-end="{{ $lot->auction_end->toIso8601String() }}"></span>
+                            </p>
+                        @else
+                            <p>Аукцион завершён</p>
+                        @endif
 
-                </div>
-                <div class="bids__middle">
-                    @forelse ($bids as $bid)
-                        <div class="bet">
-                            <div class="bet__name">
-                                <img src="{{ $bid->avatar_url ? asset('storage/' . $bid->avatar_url) : asset('images/design/base-avatar.jpg') }}"
-                                    alt="Аватар" class="avatar">
-                                <div>{{ $bid->first_name }} {{ $bid->last_name }}</div>
+                    </div>
+                    <div class="bids__middle">
+                        @forelse ($bids as $bid)
+                            <div class="bet">
+                                <div class="bet__name">
+                                    <img src="{{ $bid->avatar_url ? asset('storage/' . $bid->avatar_url) : asset('images/design/base-avatar.jpg') }}"
+                                        alt="Аватар" class="avatar">
+                                    <div>{{ $bid->first_name }} {{ $bid->last_name }}</div>
+                                </div>
+                                <div><strong>{{ $bid->bid_amount }}$</strong></div>
                             </div>
-                            <div><strong>{{ $bid->bid_amount }}$</strong></div>
-                        </div>
-                    @empty
-                        <p>Ставок пока нет</p>
-                    @endforelse
-                </div>
+                        @empty
+                            <p>Ставок пока нет</p>
+                        @endforelse
+                    </div>
 
-                <div class="bids__bottom">
-                    Старт с {{ $lot->starting_price }}$
+                    <div class="bids__bottom">
+                        Старт с {{ $lot->starting_price }}$
+                    </div>
                 </div>
-            </div>
-            <div class="seller-info">
-                <img src="{{ $lot->seller_avatar_url ? asset('storage/' . $lot->seller_avatar_url) : asset('images/design/base-avatar.jpg') }}"
-                    alt="Аватар продавца" class="seller-avatar">
+                <div class="seller-info">
+                    <img src="{{ $lot->seller_avatar_url ? asset('storage/' . $lot->seller_avatar_url) : asset('images/design/base-avatar.jpg') }}"
+                        alt="Аватар продавца" class="seller-avatar">
 
-                <div class="seller-details">
-                    <p class="seller-name">{{ $lot->seller_first_name }} {{ $lot->seller_last_name }}</p>
-                    <p class="seller-role">Продавец</p>
+                    <div class="seller-details">
+                        <p class="seller-name">{{ $lot->seller_first_name }} {{ $lot->seller_last_name }}</p>
+                        <p class="seller-role">Продавец</p>
+                    </div>
                 </div>
-            </div>
         </div>
         </div>
     </main>
     <x-footer />
 
+    <!-- для формы подачи жалобы -->
+    <div id="complaintModal">
+        <div style="background:#fff; padding:20px; border-radius:10px; width:400px; position:relative;">
+            <h3>Жалоба на продавца</h3>
+
+            <form method="POST" action="{{ route('complaints.store', $lot->id) }}">
+                @csrf
+
+                <label for="complaint_title">Заголовок:</label>
+                <input type="text" name="complaint_title" required>
+
+                <label for="complaint_descr">Описание:</label>
+                <input type="text" name="complaint_descr" required>
+
+                <label for="evidence_photo_url">Ссылка на фото-доказательсва или скриншоты:</label>
+                <input type="text" name="evidence_photo_url">
+
+                <div class="flex justify-between">
+                    <button type="submit" class="button">Отправить</button>
+                    <button type="button" id="closeComplaintModal"
+                        onclick="document.getElementById('complaintModal').style.display='none'"
+                        class="product__addfavorites-button button">
+                        Отмена
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     {{-- для деланья ставки --}}
     <div id="bid-modal" class="bid-modal" style="display: none;">
         <div class="modal-overlay" onclick="closeBidModal()"></div>
@@ -259,6 +286,27 @@
         function closeBidModal() {
             document.getElementById('bid-modal').style.display = 'none';
         }
+
+        // для подачи жалоб
+        document.addEventListener('DOMContentLoaded', function() {
+            const openBtn = document.getElementById('openComplaintModal');
+            const modal = document.getElementById('complaintModal');
+            const closeBtn = document.getElementById('closeComplaintModal');
+
+            openBtn.addEventListener('click', function() {
+                modal.style.display = 'flex';
+            });
+
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
     </script>
 
 </body>

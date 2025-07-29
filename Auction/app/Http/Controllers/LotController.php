@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Bid;
 use App\Models\Lot;
+use App\Models\Filter;
+use App\Models\Seller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -15,48 +18,95 @@ class LotController extends Controller
     // метод для вывода лотов на home страницу с показом времени до конца аукциона и выводом первой картинки, поиска по названию и описанию
     public function index(Request $request)
     {
+
         $search = $request->input('req');
+        $auctionEndOrder = $request->input('auction_end_order');
+        $priceOrder = $request->input('price_order');
+
+        $weaponTypes = $request->input('weapon_types', []);
+        $armorTypes = $request->input('armor_types', []);
+        $religionTypes = $request->input('religion_types', []);
+        $booksTypes = $request->input('books_types', []);
 
         $query = Lot::query();
+
         if ($search) {
-            $query->where('title', 'like', '%' . $search . '%')
-                ->orWhere('descr', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('descr', 'like', '%' . $search . '%');
+            });
         }
 
-        // для отображения только актуальных лотов 
+        // Только активные лоты
         $query->where('auction_end', '>', Carbon::now());
-        
-        $lots = $query->get()->map(function ($lot) {
 
-            //получаем время до конца аукциона
+        // Фильтрация по выбранным опциям фильтров
+        if (!empty($weaponTypes)) {
+            $query->whereHas('filterOptions', function ($q) use ($weaponTypes) {
+                $q->whereIn('filters_options.id', $weaponTypes);
+            });
+        }
+        if (!empty($armorTypes)) {
+            $query->whereHas('filterOptions', function ($q) use ($armorTypes) {
+                $q->whereIn('filters_options.id', $armorTypes);
+            });
+        }
+        if (!empty($religionTypes)) {
+            $query->whereHas('filterOptions', function ($q) use ($religionTypes) {
+                $q->whereIn('filters_options.id', $religionTypes);
+            });
+        }
+        if (!empty($booksTypes)) {
+            $query->whereHas('filterOptions', function ($q) use ($booksTypes) {
+                $q->whereIn('filters_options.id', $booksTypes);
+            });
+        }
+
+        // Сортировка по дате завершения
+        if ($auctionEndOrder == 'new') {
+            $query->orderBy('auction_end', 'desc');
+        } elseif ($auctionEndOrder == 'old') {
+            $query->orderBy('auction_end', 'asc');
+        }
+
+        // Сортировка по цене
+        if ($priceOrder == 'asc') {
+            $query->orderBy('current_price', 'asc');
+        } elseif ($priceOrder == 'desc') {
+            $query->orderBy('current_price', 'desc');
+        }
+
+        $query->with(['categories', 'filters', 'filterOptions']);
+
+        $lots = $query->get()->map(function ($lot) {
             $now = Carbon::now();
             $end = Carbon::parse($lot->auction_end);
             $lot->time_left = $now->diff($end);
 
-            // Получаем первую фотографию для этого лота для вывода в карточку лота
             $photo = DB::table('photos_lots')
                 ->where('lot_id', $lot->id)
                 ->orderBy('id')
                 ->first();
             $lot->photo_url = $photo ? $photo->photo_url : null;
 
-            // Максимальная ставка по лоту
             $maxBid = DB::table('bids')
                 ->where('lot_id', $lot->id)
                 ->max('bid_amount');
 
-            // Текущая цена — максимум из ставки или стартовой цены
             $lot->current_price = $maxBid ?? $lot->starting_price;
 
             return $lot;
         });
+
         return view('home', compact('lots'));
     }
+
 
     // метод для вывода отдельного лота на страницу с аукционом
     public function show($id)
     {
         $lot = Lot::findOrFail($id);
+        $lot = Lot::with('seller.user')->findOrFail($id);
 
         // Получаем название категории для конкретного лота, чтобы потом вывести в lot.blade.php
         $quality = DB::table('lot_qualities')
@@ -78,41 +128,45 @@ class LotController extends Controller
             ->orderByDesc('bids.bid_amount')
             ->get();
 
-        $seller = DB::table('users')->where('id', $lot->seller_id)->first();
-        $lot->seller_first_name = $seller->first_name ?? 'Имя';
-        $lot->seller_last_name = $seller->last_name ?? 'Фамилия';
-        $lot->seller_avatar_url = $seller->avatar_url ?? null;
+        $lot->seller_first_name = $lot->seller->user->first_name ?? 'Имя';
+        $lot->seller_last_name = $lot->seller->user->last_name ?? 'Фамилия';
+        $lot->seller_avatar_url = $lot->seller->user->avatar_url ?? null;
 
         return view('lot', compact('lot', 'photos', 'bids'));
     }
 
     public function create()
     {
-        $qualities = DB::table('lot_qualities')->get(); // для вывода степени сохранности и описания
-        return view('create-auction', compact('qualities'));
+        $categories = Category::all();
+        $filters = Filter::with('options')->get()->groupBy('category_id');
+        $qualities = DB::table('lot_qualities')->get();
+
+        return view('create-auction', compact('categories', 'filters', 'qualities'));
     }
+
     public function store(Request $request)
     {
-        // Валидирую форму
         $validated = $request->validate([
             'title' => 'required|string|max:150',
             'descr' => 'required|string|max:2500',
             'quality_id' => 'required|exists:lot_qualities,id',
             'starting_price' => 'required|numeric|min:0',
             'auction_end' => 'required|date|after:now',
-            'quality_id' => 'required|exists:lot_qualities,id',
+            'categories' => 'required|array|min:1',
+            'categories.*' => 'exists:categories,id',
+            'filter_options' => 'nullable|array',
+            'filter_options.*' => 'exists:filters_options,id',
             'photos.*' => 'image|mimes:jpeg,jpg,png|max:5120',
         ]);
 
-        // Проверяю что фоток 10 штук
         if ($request->hasFile('photos') && count($request->file('photos')) > 10) {
             return back()->withErrors(['photos' => 'Можно загрузить не более 10 изображений!'])->withInput();
         }
 
-        // Сохраняю лот 
+        $seller = Seller::where('user_id', Auth::id())->first();
+
         $lotId = DB::table('lots')->insertGetId([
-            'seller_id' => Auth::id(),
-            // 'seller_id' => 1, // временно, пока не будет авторизация TODO НЕ ЗАБЫТЬ ЗАМЕНИТЬ!!!!!!!!!!!!!!!!
+            'seller_id' => $seller->id,
             'title' => $validated['title'],
             'descr' => $validated['descr'],
             'quality_id' => $validated['quality_id'],
@@ -125,7 +179,37 @@ class LotController extends Controller
             'updated_at' => now(),
         ]);
 
-        // Сохраняю фотки с именами 1_1, 1_2 и тд
+        foreach ($validated['categories'] as $categoryId) {
+            DB::table('categories_lot')->insert([
+                'lot_id' => $lotId,
+                'category_id' => $categoryId,
+            ]);
+        }
+
+        $filterOptionIds = $validated['filter_options'] ?? [];
+
+        foreach ($filterOptionIds as $optionId) {
+            DB::table('filters_options_lot')->insert([
+                'lot_id' => $lotId,
+                'filter_option_id' => $optionId,
+            ]);
+        }
+
+        if (!empty($filterOptionIds)) {
+            $filterIds = DB::table('filters_options')
+                ->whereIn('id', $filterOptionIds)
+                ->pluck('filter_id')
+                ->unique();
+
+            foreach ($filterIds as $filterId) {
+                DB::table('filters_lot')->insert([
+                    'lot_id' => $lotId,
+                    'filter_id' => $filterId,
+                ]);
+            }
+        }
+
+        // Сохраняем фотки
         if ($request->hasFile('photos')) {
             $files = $request->file('photos');
 
@@ -138,7 +222,6 @@ class LotController extends Controller
                 DB::table('photos_lots')->insert([
                     'lot_id' => $lotId,
                     'photo_url' => 'storage/' . $path,
-                    'created_at' => now(),
                 ]);
             }
         }
@@ -152,8 +235,13 @@ class LotController extends Controller
         $user = Auth::user();
         $lot = Lot::with('bids')->findOrFail($id);
 
+        $seller = Seller::where('user_id', $user->id)->first();
+
         if ($lot->auction_end && now()->greaterThan($lot->auction_end)) {
             return back()->with('error', 'Аукцион завершён');
+        }
+        if ($seller && $lot->seller_id === $seller->id) {
+            return back()->with('error', 'Вы не можете делать ставки на свои лоты.');
         }
 
         $lastBid = $lot->bids()->latest()->first();

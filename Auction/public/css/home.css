@@ -29,7 +29,7 @@ body {
   padding-bottom: 5px;
   font-weight: bold;
   font-size: 110%;
-  border-bottom: solid 1px #364f49;
+  border-bottom: solid 1px #cccccc;
 }
 
 .filters__checkbox-group {

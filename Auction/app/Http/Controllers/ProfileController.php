@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bid;
+use App\Models\Lot;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -11,7 +15,18 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('profile', compact('user'));
+        // Для истории сделанных ставок
+        $bids = Bid::where('user_id', $user->id)
+            ->with('lot')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $userLots = collect();
+        if ($user->seller) {
+            $userLots = $user->seller->lots()->get();
+        }
+
+        return view('profile', compact('user', 'bids', 'userLots'));
     }
 
     public function update(Request $request)
@@ -36,11 +51,30 @@ class ProfileController extends Controller
             $path = $request->file('avatar')->storeAs('avatars', $filename, 'public');
 
             $validated['avatar_url'] = $path;
-
         }
 
         $user->update($validated);
 
         return redirect()->route('profile');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'currentPassword' => ['required'],
+            'newPassword' => ['required', 'min:6', 'max:30', 'confirmed'], // требует поля `newPassword_confirmation`
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->currentPassword, $user->password)) {
+            return back()->withErrors(['currentPassword' => 'Неверный текущий пароль']);
+        }
+
+        DB::table('users')
+            ->where('id', $user->id)
+            ->update(['password' => Hash::make($request->newPassword)]);
+
+        return back()->with('success', 'Пароль успешно изменён');
     }
 }
