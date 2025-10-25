@@ -2,124 +2,312 @@
 
 namespace Database\Seeders;
 
-use App\Models\Lot;
 use App\Models\Filter;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class LotSeeder extends Seeder
 {
     public function run()
     {
-        // DB::table('users')->insertGetId([
-        //     'first_name' => 'Laurente',
-        //     'last_name' => 'Morhain',
-        //     'email' => 'Laurente@gmail.com',
-        //     'password_hash' => bcrypt('password1'),
-        //     'rating' => 4.5,
-        //     'birth_date' => '1973-05-15',
-        //     'city' => 'Paris',
-        //     'bio' => 'Hello. My name is Laurente Morhain, I am 52 years old, and I live and work in Paris. For over thirty years, my life has been closely intertwined with archaeology, history, and the discovery of artifacts that carry the breath of ancient civilizations. After studying antiquity and Eastern Mediterranean history at the Sorbonne, I spent many years in field expeditions. I worked in Egypt, Turkey, Syria, and the Balkans — excavating burial sites, restoring mosaics, photographing cuneiform tablets. Those years became a school of reverence for me — reverence for time, for memory, and for the people who left these traces behind. Today, I’m offering part of my collection for sale — for various reasons: to give these items a "second life," to allow them to become part of someone else\'s archaeological journey, and sometimes simply to make space for new discoveries. I believe artifacts shouldn\'t lie hidden in drawers; they should be seen, studied, and interpreted.',
-        //     'avatar_url' => null,
-        //     'is_baned' => false,
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
+        // Создаём тестового суперадмина
+        DB::table('admins')->insert([
+            'first_name'    => 'Super',
+            'last_name'     => 'Admin',
+            'email'         => 'superadmin@gmail.com',
+            'password_hash' => bcrypt('qwerty'),
+            'role'          => 'superadmin',
+            'created_at'    => now(),
+            'updated_at'    => now(),
+        ]);
 
-        // DB::table('users')->insertGetId([
-        //     'first_name' => 'Анастасия',
-        //     'last_name' => 'Шмидт',
-        //     'email' => 'Anastasia@gmail.com',
-        //     'password_hash' => bcrypt('password2'),
-        //     'rating' => 4.9,
-        //     'birth_date' => '2000-12-31',
-        //     'city' => 'Пермь',
-        //     'bio' => 'Археолог по образованию и жадная до денег по призванию.После университета я работала в официальных экспедициях — копала, каталогизировала, отчитывалась. Но со временем поняла, что настоящие открытия редко лежат на поверхности и почти никогда не попадают в музеи. Часть находок оседает в хранилищах, часть теряется в бюрократии.Сейчас я работаю независимо. Порой консультирую коллекционеров, иногда передаю предметы в частные собрания. Всё, что я делаю, — с уважением к прошлому. Не торгую предметами религиозной тематики, в основном выставляю оружие или украшения ',
-        //     'avatar_url' => null,
-        //     'is_baned' => false,
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
+        // Создаём тестовых пользователей
+        DB::table('users')->insertGetId([
+            'first_name' => 'Laurente',
+            'last_name' => 'Morhain',
+            'email' => 'Laurente@gmail.com',
+            'password' => bcrypt('password1'),
+            'rating' => 4.5,
+            'birth_date' => '1973-05-15',
+            'city' => 'Paris',
+            'bio' => 'Hello. My name is Laurente Morhain, I am 52 years old, and I live and work in Paris. For over thirty years, my life has been closely intertwined with archaeology, history, and the discovery of artifacts that carry the breath of ancient civilizations. After studying antiquity and Eastern Mediterranean history at the Sorbonne, I spent many years in field expeditions. I worked in Egypt, Turkey, Syria, and the Balkans — excavating burial sites, restoring mosaics, photographing cuneiform tablets. Those years became a school of reverence for me — reverence for time, for memory, and for the people who left these traces behind. Today, I’m offering part of my collection for sale — for various reasons: to give these items a "second life," to allow them to become part of someone else\'s archaeological journey, and sometimes simply to make space for new discoveries. I believe artifacts shouldn\'t lie hidden in drawers; they should be seen, studied, and interpreted.',
+            'avatar_url' => null,
+            'is_baned' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-        // DB::table('users')->insertGetId([
-        //     'first_name' => 'Евгений',
-        //     'last_name' => 'Васильев',
-        //     'email' => 'Evgeny@gmail.com',
-        //     'password_hash' => bcrypt('password3'),
-        //     'rating' => 4.3,
-        //     'birth_date' => '1990-01-01',
-        //     'city' => 'Москва',
-        //     'bio' => 'Я профессиональный археолог и продавец антиквариата. Я люблю историю и все, что связано с ней. Мои лоты представляют собой различные предметы, найденные во время моих экспедиций. Я стараюсь создать впечатление, что каждый из моих лотов был найден и изучен лично мной.',
-        //     'avatar_url' => null,
-        //     'is_baned' => false,
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
+        DB::table('users')->insertGetId([
+            'first_name' => 'Анастасия',
+            'last_name' => 'Шмидт',
+            'email' => 'Anastasia@gmail.com',
+            'password' => bcrypt('password2'),
+            'rating' => 4.9,
+            'birth_date' => '2000-12-31',
+            'city' => 'Пермь',
+            'bio' => 'Археолог по образованию и жадная до денег по призванию.После университета я работала в официальных экспедициях — копала, каталогизировала, отчитывалась. Но со временем поняла, что настоящие открытия редко лежат на поверхности и почти никогда не попадают в музеи. Часть находок оседает в хранилищах, часть теряется в бюрократии.Сейчас я работаю независимо. Порой консультирую коллекционеров, иногда передаю предметы в частные собрания. Всё, что я делаю, — с уважением к прошлому. Не торгую предметами религиозной тематики, в основном выставляю оружие или украшения ',
+            'avatar_url' => null,
+            'is_baned' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-        // // Создаём продавцов
-        // DB::table('sellers')->delete();
+        DB::table('users')->insertGetId([
+            'first_name' => 'Евгений',
+            'last_name' => 'Васильев',
+            'email' => 'Evgeny@gmail.com',
+            'password' => bcrypt('password3'),
+            'rating' => 4.3,
+            'birth_date' => '1990-01-01',
+            'city' => 'Москва',
+            'bio' => 'Я профессиональный археолог и продавец антиквариата. Я люблю историю и все, что связано с ней. Мои лоты представляют собой различные предметы, найденные во время моих экспедиций. Я стараюсь создать впечатление, что каждый из моих лотов был найден и изучен лично мной.',
+            'avatar_url' => null,
+            'is_baned' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-        // DB::table('sellers')->insertGetId(
-        //     [
-        //         'id' => 1,
-        //         'user_id' => 1,
-        //         'citizenship' => 'France',
-        //         'gender' => 'male',
-        //         'passport_number' => '1234 123412',
-        //         'passport_issued_by' => 'DG Paris',
-        //         'passport_photo_url' => '/storage/passport/pass-euro.jpg',
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]
-        // );
+        // Создаём продавцов
+        DB::table('sellers')->insertGetId(
+            [
+                'user_id' => 1,
+                'citizenship' => 'France',
+                'gender' => 'male',
+                'passport_number' => '1234 123412',
+                'passport_issued_by' => 'DG Paris',
+                'passport_photo_url' => 'images/passport/pass-euro.jpg',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
 
-        // DB::table('sellers')->insertGetId(
-        //     [
-        //         'id' => 2,
-        //         'user_id' => 2,
-        //         'citizenship' => 'Germany',
-        //         'gender' => 'female',
-        //         'passport_number' => '1234 123412',
-        //         'passport_issued_by' => 'Berlin ACB',
-        //         'passport_photo_url' => '/storage/passport/pass-euro.jpg',
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]
-        // );
+        DB::table('sellers')->insertGetId(
+            [
+                'user_id' => 2,
+                'citizenship' => 'Germany',
+                'gender' => 'female',
+                'passport_number' => '1234 123412',
+                'passport_issued_by' => 'Berlin ACB',
+                'passport_photo_url' => 'images/passport/pass-euro.jpg',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
 
-        // DB::table('sellers')->insertGetId([
-        //     'user_id' => 2,
-        //     'citizenship' => 'Россия',
-        //     'gender' => 'female',
-        //     'passport_number' => '3333 444444',
-        //     'passport_issued_by' => 'ОВД г. СПб',
-        //     'passport_photo_url' => '/storage/passport/pass-euro.jpg',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
+        DB::table('sellers')->insertGetId([
+            'user_id' => 3,
+            'citizenship' => 'Россия',
+            'gender' => 'male',
+            'passport_number' => '3333 444444',
+            'passport_issued_by' => 'ОВД г. СПб',
+            'passport_photo_url' => 'images/passport/pass-euro.jpg',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
-        // // Создаём качества лотов
-        // DB::table('lot_qualities')->insertGetId([
-        //     'quality_code' => 'Идеальное',
-        //     'title' => 'Идеальное состояние',
-        //     'descr' => 'Нет видимых следов износа или манипуляций или они минимальны. Могут присутствовать следы, возникшие на заготовке при изготовлении или чеканке. Отсутствуют следы износа и любые механические повреждения, минимальное влияние времени. Самая наивысшая степень сохранности',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
+        // Создаём качества лотов
+        DB::table('lot_qualities')->insert(
+            [
+                [
+                    'quality_code' => 1,
+                    'title' => 'Идеальное',
+                    'descr' => 'Нет видимых следов износа или манипуляций или они минимальны. Могут присутствовать следы, возникшие на заготовке при изготовлении или чеканке. Отсутствуют следы износа и любые механические повреждения, минимальное влияние времени. Самая наивысшая степень сохранности'
+                ],
+                [
+                    'quality_code' => 2,
+                    'title' => 'Отличное',
+                    'descr' => '95% оригинальных деталей не имеют дефектов. Возможны заметные небольшие царапины, и небольшое влияние времени'
+                ],
+                [
+                    'quality_code' => 3,
+                    'title' => 'Хорошее',
+                    'descr' => '80-90% оригинальных деталей не имеют дефектов. Возможны заметные царапины и небольшие повреждения, вмятины, слабые следы ударов, мытья, чистки, изменение в окраске, влияние времени заметно, но не мешает использованию. Могут остуствовать небольшие фрагменты и быть заметны следы разложения или ржавчины'
+                ],
+                [
+                    'quality_code' => 4,
+                    'title' => 'Нормальное',
+                    'descr' => '50-80% оригинальных деталей не имеют дефектов. Возможны царапины и повреждения, влияние времени заметно, но предмет не рассыпается и не разламывается в руках, не отваливаются куски. Некоторые фрагменты могут отсутствовать, могут присутствовать крупные следы разложения и ржавчины. Допустим раскол на две, три или четыре крупных части'
+                ],
+                [
+                    'quality_code' => 5,
+                    'title' => 'Плохое',
+                    'descr' => 'Уровень сохранности изделия от 50% и ниже. Отсутствуют крупные фрагменты, заметно сильное влияние времени, масштабные следы разложения и ржавчины, на изделии невозможно различить детали или узоры'
+                ]
+            ]
+        );
 
-        // DB::table('lot_qualities')->insertGetId([
-        //     'quality_code' => 'Отличное',
-        //     'title' => 'Отличное состояние',
-        //     'descr' => '80-90% оригинальных деталей не имеют дефектов. Возможны заметные царапины и небольшие повреждения, вмятины, слабые следы ударов, мытья, чистки, изменение в окраске, влияние времени заметно, но не мешает использованию. Могут остуствовать небольшие фрагменты и быть заметны следы разложения или ржавчины',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
+
+        $categoryId = DB::table('categories')->insertGetId([
+            'category_name' => 'Оружие',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Фильтр "Типы оружия"
+        $filterId = DB::table('filters')->insertGetId([
+            'category_id' => $categoryId,
+            'filter_name' => 'Типы оружия',
+            'is_system_only' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Подфильтры
+        $options = [
+            'Мечи',
+            'Кинжалы',
+            'Топоры',
+            'Луки',
+            'Арбалеты',
+            'Древковое',
+            'Метательное',
+            'Огнестрельное',
+            'Осадное'
+        ];
+
+        foreach ($options as $name) {
+            DB::table('filters_options')->insert([
+                'filter_id' => $filterId,
+                'filter_option_name' => $name,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        $categoryId = DB::table('categories')->insertGetId([
+            'category_name' => 'Доспехи',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Фильтр "Типы доспехов"
+
+        $filterId = DB::table('filters')->insertGetId([
+            'category_id' => $categoryId,
+            'filter_name' => 'Типы доспехов',
+            'is_system_only' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Подфильтры
+        $options = [
+            'Латные',
+            'Кольчужные',
+            'Кожаные',
+            'Тканевые',
+            'Зерцала',
+            'Бригантина',
+            'Шлемы',
+            'Шапки и платки',
+            'Торс',
+            'Руки',
+            'Ноги',
+            'Полный комплект',
+            'Частичный комплект',
+        ];
+
+        foreach ($options as $name) {
+            DB::table('filters_options')->insert([
+                'filter_id' => $filterId,
+                'filter_option_name' => $name,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
 
+        $categoryId = DB::table('categories')->insertGetId([
+            'category_name' => 'Религия',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $filterId = DB::table('filters')->insertGetId([
+            'category_id' => $categoryId,
+            'filter_name' => 'Типы религиозных предметов',
+            'is_system_only' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Подфильтры
+        $options = [
+            'Церемониальные предметы',
+            'Утварь',
+            'Одежда',
+            'Украшения',
+            'Книги и рукописи',
+            'Изображения и иконы',
+        ];
+
+        foreach ($options as $name) {
+            DB::table('filters_options')->insert([
+                'filter_id' => $filterId,
+                'filter_option_name' => $name,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+
+        $categoryId = DB::table('categories')->insertGetId([
+            'category_name' => 'Книги и манускрипты',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+
+        // Фильтр "Типы книг"
+        $filterId = DB::table('filters')->insertGetId([
+            'category_id' => $categoryId,
+            'filter_name' => 'Типы книг',
+            'is_system_only' => false,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Подфильтры
+        $options = [
+            'Печатные книги',
+            'Рукописи',
+            'Манускрипты',
+            'Письма',
+            'Индульценции',
+            'Хартии',
+        ];
+
+        foreach ($options as $name) {
+            DB::table('filters_options')->insert([
+                'filter_id' => $filterId,
+                'filter_option_name' => $name,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+
+        $endDateFilter = Filter::create([
+            'filter_name' => 'Дата завершения',
+            'is_system_only' => true,
+        ]);
+
+        $endDateFilter->options()->createMany([
+            ['filter_option_name' => 'Новое'],
+            ['filter_option_name' => 'Старое'],
+        ]);
+
+        $priceFilter = Filter::create([
+            'filter_name' => 'Цена',
+            'is_system_only' => true,
+        ]);
+
+        $priceFilter->options()->createMany([
+            ['filter_option_name' => 'Дешевле'],
+            ['filter_option_name' => 'Дороже'],
+        ]);
 
         // Создаём лоты
-        // DB::table('lots')->delete();
         DB::table('lots')->insert([
             [
                 'id' => 1,
@@ -167,12 +355,7 @@ class LotSeeder extends Seeder
         Но истоия возникновения и принцип действия «физического» меча, лежащего на столе Достпочтимого Мастера, ни что иное как внешнее проявление символа. Символа первое упоминание о котором мы можем прочитать в ветхом завете:
         «… когда Высочайший «изгнал Адама и поставил на востоке у сада Едемского Херувима и пламенный меч обращающийся, чтобы охранить путь к древу жизни» (Быт. 3:24).
         Этот вечно обращающийся пламенеющий меч означает инициатическое очищение огнем, которое претерпевает идущий по извилистому пути мистерий, пока не будет достигнута полная самореализация.
-        Отражение в ангельском мире  — это пламенеющий меч св. Михаэля, предводителя Небесных Воинств. Одно из тайное значение Меча — олицетворение результата работа в «кузне» человекаом, как «Повелителем Металлов» и «Властителем Кузницы», одаренным огнем Прометея принесшем людям Знания. Работа с огнем в кузнице глубоко ассоциирована с развитем — духовным и физическим. Это не просто намек на практические достижения в примитивной технологии, а ясная метафора, указывающая на контроль «внутреннего огня», сексуальной силы и магическое перевоплощение знания в силу.
-        Кузнецы и волшебники всегда отождествлялись в магических искусствах многих культур. В мифах многих индо-европейских культур был божественный кузнец, учивший людей секретам работы с огнем и ковавший оружие для богов, например, Вулкан, Вейланд, Гефест и т.д. В мифе о Вулкане его отец Зевс или Юпитер сбросил его с небес, и он пал на Землю. В падении он повредил левую ногу и стал хромым. Одно из традиционных именований бога ведьм — Хромой. Вулкан также женился на богине Венере, утренней звезде и супруге Люцифера. В монгольском и сибирском шаманизме проводятся воззвания к загадочному «белому кузнецу», который, как считается, создал барабаны и другие магические инструменты, используемые для призывания духов. В некоторых изотерических учениях инструменты кузнеца, такие как горн, щипцы, кожаный фартук, гвозди и подковы, использовались как магические инструменты или символы ведьмовства.
-        Форма еврейской буквы Зайн, лезвие меча, это космический огонь, который, как сияющая вспышка или удар молнии, «разрубает» завесу материального неведения. Он повсеместно символизирует просвещающую мудрость, от кельто-артурианского Экскалибура (уэльс. Caladvwlch) и Меча Ханго до индо-тибетского пур-ба (phur-ba), кинжала, используемого в ритуалах Бон.
-        В нашем уставе Пламенеющий Меч – символ духовной власти. Он вручается при инсталляции Досточтимому Мастеру.
-        В христианстве меч олицетворяет страсти Господни, мученичество. Он является оружием архангела Михаила, а также используется в качестве атрибута многих святых. С помощью меча отсекается все недостойное и бесплодное, «всякое дерево, не приносящее доброго плода». Библейские херувимы с огненными мечами охраняют врата рая. Меч при этом символизирует начало высшей справедливости.
-        Пламенеющий меч, в руках достойного — рассекающий завесу тьмы перед ищущим, защищающий знания от профанов и карающий предателей.',
+        Отражение в ангельском мире  — это пламенеющий меч св. Михаэля, предводителя Небесных Воинств.',
                 'quality_id' => 5,
                 'starting_price' => 2000,
                 'auction_start' => now(),
@@ -339,8 +522,94 @@ class LotSeeder extends Seeder
             ],
         ]);
 
+        // Получаем id всех опций для того чтобы фильтры работали
+        $swordOptionId = DB::table('filters_options')
+            ->where('filter_option_name', 'Мечи')
+            ->first()
+            ->id;
 
-        // DB::table('photos_lots')->delete();
+        $plateOptionId = DB::table('filters_options')
+            ->where('filter_option_name', 'Латные')
+            ->first()
+            ->id;
+
+        $helmetOptionId = DB::table('filters_options')
+            ->where('filter_option_name', 'Шлемы')
+            ->first()
+            ->id;
+
+        $ceremonialOptionId = DB::table('filters_options')
+            ->where('filter_option_name', 'Церемониальные предметы')
+            ->first()
+            ->id;
+
+        $jewelryOptionId = DB::table('filters_options')
+            ->where('filter_option_name', 'Украшения')
+            ->first()
+            ->id;
+
+        $manuscriptOptionId = DB::table('filters_options')
+            ->where('filter_option_name', 'Манускрипты')
+            ->first()
+            ->id;
+
+        // Привязываем к лоту
+        DB::table('filters_options_lot')->insert([
+            [
+                'lot_id' => 1,
+                'filter_option_id' => $swordOptionId,
+            ],
+            [
+                'lot_id' => 3,
+                'filter_option_id' => $swordOptionId,
+            ],
+            [
+                'lot_id' => 2,
+                'filter_option_id' => $plateOptionId,
+            ],
+            [
+                'lot_id' => 4,
+                'filter_option_id' => $plateOptionId,
+            ],
+            [
+                'lot_id' => 10,
+                'filter_option_id' => $plateOptionId,
+            ],
+            [
+                'lot_id' => 10,
+                'filter_option_id' => $helmetOptionId,
+            ],
+            [
+                'lot_id' => 5,
+                'filter_option_id' => $ceremonialOptionId,
+            ],
+            [
+                'lot_id' => 7,
+                'filter_option_id' => $ceremonialOptionId,
+            ],
+            [
+                'lot_id' => 5,
+                'filter_option_id' => $jewelryOptionId,
+            ],
+            [
+                'lot_id' => 8,
+                'filter_option_id' => $jewelryOptionId,
+            ],
+            [
+                'lot_id' => 9,
+                'filter_option_id' => $jewelryOptionId,
+            ],
+            [
+                'lot_id' => 6,
+                'filter_option_id' => $manuscriptOptionId,
+            ],
+            [
+                'lot_id' => 7,
+                'filter_option_id' => $manuscriptOptionId,
+            ],
+        ]);
+
+        // добавляем к лотам фото
         DB::table('photos_lots')->insert([
             [
                 'lot_id' => 1,
@@ -413,8 +682,7 @@ class LotSeeder extends Seeder
         ]);
 
 
-        //ставки
-        // DB::table('bids')->delete();
+        // добавляем тестовые ставки
         DB::table('bids')->insert([
             [
                 'lot_id' => 1,
@@ -482,9 +750,6 @@ class LotSeeder extends Seeder
                 'bid_amount' => 200000,
                 'created_at' => now(),
             ],
-
-
-
             [
                 'lot_id' => 2,
                 'user_id' => 2,
@@ -515,10 +780,6 @@ class LotSeeder extends Seeder
                 'bid_amount' => 150100,
                 'created_at' => now(),
             ],
-
-
-
-
             [
                 'lot_id' => 3,
                 'user_id' => 2,
@@ -549,358 +810,12 @@ class LotSeeder extends Seeder
                 'bid_amount' => 15010,
                 'created_at' => now(),
             ],
-
-
-
-
-
-
             [
                 'lot_id' => 4,
                 'user_id' => 1,
                 'bid_amount' => 1500010,
                 'created_at' => now(),
             ],
-
-
-
-
-
-            [
-                'lot_id' => 6,
-                'user_id' => 5,
-                'bid_amount' => 2000000,
-                'created_at' => now(),
-            ],
-
         ]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Заполняем новые данные
-        // DB::table('lot_qualities')->insert(
-        //     [
-        //         'quality_code' => 1,
-        //         'title' => 'Идеальное',
-        //         'descr' => 'Нет видимых следов износа или манипуляций или они минимальны. Могут присутствовать следы, возникшие на заготовке при изготовлении или чеканке. Отсутствуют следы износа и любые механические повреждения, минимальное влияние времени. Самая наивысшая степень сохранности'
-        //     ],
-        //     [
-        //         'quality_code' => 2,
-        //         'title' => 'Отличное',
-        //         'descr' => '95% оригинальных деталей не имеют дефектов. Возможны заметные небольшие царапины, и небольшое влияние времени'
-        //     ],
-        //     [
-        //         'quality_code' => 3,
-        //         'title' => 'Хорошее',
-        //         'descr' => '80-90% оригинальных деталей не имеют дефектов. Возможны заметные царапины и небольшие повреждения, вмятины, слабые следы ударов, мытья, чистки, изменение в окраске, влияние времени заметно, но не мешает использованию. Могут остуствовать небольшие фрагменты и быть заметны следы разложения или ржавчины'
-        //     ],
-        //     [
-        //         'quality_code' => 4,
-        //         'title' => 'Нормальное',
-        //         'descr' => '50-80% оригинальных деталей не имеют дефектов. Возможны царапины и повреждения, влияние времени заметно, но предмет не рассыпается и не разламывается в руках, не отваливаются куски. Некоторые фрагменты могут отсутствовать, могут присутствовать крупные следы разложения и ржавчины. Допустим раскол на две, три или четыре крупных части'
-        //     ],
-        //     [
-        //         'quality_code' => 5,
-        //         'title' => 'Плохое',
-        //         'descr' => 'Уровень сохранности изделия от 50% и ниже. Отсутствуют крупные фрагменты, заметно сильное влияние времени, масштабные следы разложения и ржавчины, на изделии невозможно различить детали или узоры'
-        //     ]
-        // );
-
-
-        // $categoryId = DB::table('categories')->insertGetId([
-        //     'category_name' => 'Оружие',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-
-        // // Фильтр "Типы оружия"
-        // $filterId = DB::table('filters')->insertGetId([
-        //     'category_id' => $categoryId,
-        //     'filter_name' => 'Типы оружия',
-        //     'is_system_only' => false,
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-
-        // // Подфильтры
-        // $options = [
-        //     'Мечи',
-        //     'Кинжалы',
-        //     'Топоры',
-        //     'Луки',
-        //     'Арбалеты',
-        //     'Древковое',
-        //     'Метательное',
-        //     'Огнестрельное',
-        //     'Осадное'
-        // ];
-
-        // foreach ($options as $name) {
-        //     DB::table('filters_options')->insert([
-        //         'filter_id' => $filterId,
-        //         'filter_option_name' => $name,
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]);
-        // }
-
-        // $categoryId = DB::table('categories')->insertGetId([
-        //     'category_name' => 'Доспехи',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-
-        // $filterId = DB::table('filters')->insertGetId([
-        //     'category_id' => $categoryId,
-        //     'filter_name' => 'Типы доспехов',
-        //     'is_system_only' => false,
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-
-        // // Подфильтры
-        // $options = [
-        //     'Латные',
-        //     'Кольчужные',
-        //     'Кожаные',
-        //     'Тканевые',
-        //     'Зерцала',
-        //     'Бригантина',
-        //     'Шлемы',
-        //     'Шапки и платки',
-        //     'Торс',
-        //     'Руки',
-        //     'Ноги',
-        //     'Полный комплект',
-        //     'Частичный комплект',
-        // ];
-
-        // foreach ($options as $name) {
-        //     DB::table('filters_options')->insert([
-        //         'filter_id' => $filterId,
-        //         'filter_option_name' => $name,
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]);
-        // }
-
-
-        // $categoryId = DB::table('categories')->insertGetId([
-        //     'category_name' => 'Религия',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-
-        // $filterId = DB::table('filters')->insertGetId([
-        //     'category_id' => $categoryId,
-        //     'filter_name' => 'Типы религиозных предметов',
-        //     'is_system_only' => false,
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-
-        // // Подфильтры
-        // $options = [
-        //     'Церемониальные предметы',
-        //     'Утварь',
-        //     'Одежда',
-        //     'Украшения',
-        //     'Книги и рукописи',
-        //     'Изображения и иконы',
-        // ];
-
-        // foreach ($options as $name) {
-        //     DB::table('filters_options')->insert([
-        //         'filter_id' => $filterId,
-        //         'filter_option_name' => $name,
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]);
-        // }
-
-
-        // $categoryId = DB::table('categories')->insertGetId([
-        //     'category_name' => 'Книги и манускрипты',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-
-        // $filterId = DB::table('filters')->insertGetId([
-        //     'category_id' => $categoryId,
-        //     'filter_name' => 'Типы книг',
-        //     'is_system_only' => false,
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
-
-        // // Подфильтры
-        // $options = [
-        //     'Печатные книги',
-        //     'Рукописи',
-        //     'Манускрипты',
-        //     'Письма',
-        //     'Индульценции',
-        //     'Хартии',
-        // ];
-
-        // foreach ($options as $name) {
-        //     DB::table('filters_options')->insert([
-        //         'filter_id' => $filterId,
-        //         'filter_option_name' => $name,
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]);
-        // }
-
-
-    // $endDateFilter = Filter::create([
-    //         'filter_name' => 'Дата завершения',
-    //         'is_system_only' => true,
-    //     ]);
-
-    //     $endDateFilter->options()->createMany([
-    //         ['filter_option_name' => 'Новое'],
-    //         ['filter_option_name' => 'Старое'],
-    //     ]);
-
-    //     // Пример системного фильтра "Цена"
-    //     $priceFilter = Filter::create([
-    //         'filter_name' => 'Цена',
-    //         'is_system_only' => true,
-    //     ]);
-
-    //     $priceFilter->options()->createMany([
-    //         ['filter_option_name' => 'Дешевле'],
-    //         ['filter_option_name' => 'Дороже'],
-    //     ]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // Lot::create([
-        //     'title' => 'Фламберг XV века (1410-1420 гг.)',
-        //     'starting_price' => 15000,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(20),
-        //     'image_url' => '/storage/lots/flammard.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Латная перчатка "Песочные часы"',
-        //     'starting_price' => 25000,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(5),
-        //     'image_url' => '/storage/lots/foot.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Меч',
-        //     'starting_price' => 930000,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(19),
-        //     'image_url' => '/storage/lots/hand.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Наголенники латные двустворчатые',
-        //     'starting_price' => 15000,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(1),
-        //     'image_url' => '/storage/lots/foot.jpg',
-        // ]);
-
-
-
-        // Lot::create([
-        //     'title' => 'Фламмард фывфывфы фыв фыв мфва фццц афаыфыв фыв',
-        //     'starting_price' => 15000,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(17),
-        //     'image_url' => '/storage/lots/flammard.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Корона короля Иоанна (1328-1364 гг.)',
-        //     'starting_price' => 250999,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(14),
-        //     'image_url' => '/storage/lots/crown.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Меч flammen, Германия (1490-1495 гг.)',
-        //     'starting_price' => 930000,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(11),
-        //     'image_url' => '/storage/lots/flammard-2.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Манускрипт времён Карла Великого',
-        //     'starting_price' => 155899,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(17),
-        //     'image_url' => '/storage/lots/book.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Часослов Ивана Шелли (1547 г.)',
-        //     'starting_price' => 18000,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(22),
-        //     'image_url' => '/storage/lots/Book_of_Hours.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Медные браслеты кара-бомовской традиции',
-        //     'starting_price' => 2000,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(25),
-        //     'image_url' => '/storage/lots/braslet.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Брошь ахейского княжества (1419 г.)',
-        //     'starting_price' => 9999,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(16),
-        //     'image_url' => '/storage/lots/brosh.jpg',
-        // ]);
-
-        // Lot::create([
-        //     'title' => 'Шлем, Швеция 11в.',
-        //     'starting_price' => 5500,
-        //     'auction_start' => now(),
-        //     'auction_end' => now()->addDays(14),
-        //     'image_url' => '/storage/lots/helmet.jpg',
-        // ]);
     }
 }
